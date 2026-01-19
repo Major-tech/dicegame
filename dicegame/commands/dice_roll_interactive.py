@@ -11,7 +11,7 @@ def display_dice_roll_cmd_interactive(session):
 
 def guess_dice_roll_cmd_interactive(user_guess,session):
     dice_roll_result = get_random_number()
-#    win = guess_dice_roll_service(dice_roll_result,user_guess)
+
     guess_dice_roll_service(dice_roll_result,user_guess,session)
 
 

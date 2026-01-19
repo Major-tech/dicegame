@@ -7,6 +7,7 @@ from dicegame.services.auth import(
 import getpass
 from dicegame.utils.errors import AppError
 from dicegame.utils.logging import get_logger
+from dicegame.utils.rich_pkg.console import console
 
 
 # logger
@@ -19,7 +20,7 @@ def login_cmd_interactive(session):
         password = getpass.getpass("Password: ")
 
         if not username or not password:
-            print("All fields are required!")
+            console.print("[warning]All fields are required![warning]")
             continue
 
         break
@@ -29,21 +30,21 @@ def login_cmd_interactive(session):
         login_service(username,password)
     except AppError as e:
         logger.warning(str(e))
-        print(e)
+        console.print('[error]',e,'[error]')
     else:
         # start session
         session.login(username)
-        print(f"Logged in as {session.username}")
+        console.print(f"[success]Logged in as[success] {session.username}")
 
 
 def logout_cmd_interactive(session):
     if not session.logged_in:
-        print("Not logged in")
+        console.print("[error]Not logged in[error]")
         return
 
     user = session.username
     session.logout()
-    print(f"User {user} logged out successfully")
+    console.print(f"[success]User {user} logged out successfully[success]")
 
 
 def signup_cmd_interactive():
@@ -52,11 +53,11 @@ def signup_cmd_interactive():
         password = getpass.getpass("Password: ")
 
         if not username or not password:
-            print("All fields are required!")
+            console.print("[warning]All fields are required![warning]")
             continue
 
         if len(password) < 3:
-            print("Password is too short")
+            console.print("[warning]{Password is too short[warning]")
             continue
 
         break

@@ -2,6 +2,7 @@ from dicegame.services.delete_user_service import(
     confirm_username_service,
     delete_user_service
 )
+from dicegame.utils.rich_pkg.console import console
 
 
 def delete_user_cmd():
@@ -10,19 +11,19 @@ def delete_user_cmd():
     while attempts != 0:
         user_to_delete = input("Enter username:  ")
         if attempts == 0:
-            print("Too many invalid attempts")
+            console.print("[error]Too many invalid attempts[error]")
             return
         attempts -= 1
 
         if not user_to_delete:
-            print("Please type a valid username ")
+            console.print("[warning]Please type a valid username [warning]")
             continue
 
 
         user_id = confirm_username_service(user_to_delete)
 
         if not user_id:
-            print(f"User {user_to_delete} not found")
+            console.print(f"[error]User {user_to_delete} not found[error]")
             continue
 
         break

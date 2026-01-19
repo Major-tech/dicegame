@@ -1,3 +1,6 @@
+
+
+
 class AppError(Exception):
     """Base class for all domain errors"""
     pass

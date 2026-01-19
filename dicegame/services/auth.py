@@ -10,6 +10,7 @@ from dicegame.utils.errors import(
     UserNotFoundError
 )
 import sqlite3
+from dicegame.utils.rich_pkg.console import console
 
 
 # logger
@@ -31,7 +32,7 @@ def login_service(username: str,password: str):
 
             if password_match:
                 logger.info("Successful user login")
-                print("Login successful")
+                console.print("[success]Login successful![success]")
 
 
             if not password_match:
@@ -47,7 +48,7 @@ def signup_service(username: str,password_hash: str):
         try:
             add_user(conn,username,password_hash)
             logger.info("Successful user signup")
-            print("Sign up was successful!")
+            console.print("[success]Sign up was successful![success]")
 
         except sqlite3.IntegrityError as e:
             logger.warning("username already exists")

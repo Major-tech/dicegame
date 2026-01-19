@@ -1,6 +1,8 @@
 from dicegame.db.queries_interactive import add_score
 from dicegame.db.connection import get_connection
 from dicegame.utils.logging import get_logger
+from dicegame.utils.rich_pkg.console import console
+from dicegame.utils.rich_pkg.progress import progress_bar
 
 
 # logger
@@ -8,12 +10,17 @@ logger = get_logger(__name__)
 
 
 def display_dice_roll_service(dice_roll_output: int):
-    print(f"\nDice roll result: {dice_roll_output}")
+    # progress bar
+    progress_bar()
+
+    console.print(f"\nYou rolled a {dice_roll_output}",style='yellow')
 
 
 def guess_dice_roll_service(computer_guess,player_guess,session=None):
-    print(f"\nUser guess: {player_guess}")
-    print(f"Dice roll result: {computer_guess}")
+    progress_bar()
+
+    console.print(f"\n[info]User guess: {player_guess}[info]")
+    console.print(f"[info]Dice roll result: {computer_guess}[info]")
 
     # correct guess
     match = False
@@ -22,9 +29,9 @@ def guess_dice_roll_service(computer_guess,player_guess,session=None):
         match = True
 
     if match:
-        print("WIN⭐")
+        console.print("[success]\nWIN⭐[success]")
     else:
-        print("LOSE😞")
+        console.print("[error]\nLOSE😞[error]")
         return
 
     if session:
@@ -33,6 +40,6 @@ def guess_dice_roll_service(computer_guess,player_guess,session=None):
                 add_score(conn,session.username)
 
                 logger.info("score added successfully")
-                print(f"\n1 point added for user {session.username}\n")
+                console.print(f"\n[success]1 point added for user[success] {session.username}\n")
             except Exception as e:
                 raise

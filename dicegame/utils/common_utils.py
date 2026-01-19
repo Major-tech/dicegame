@@ -1,9 +1,4 @@
-
-
-
-
-def clear_screen():
-    pass
+# COMMON UTILS
 
 
 def inline_space(spaces):

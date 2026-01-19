@@ -1,5 +1,7 @@
 from dicegame.db.connection import get_connection
 from dicegame.db.queries import fetch_users,fetch_scores
+from dicegame.utils.rich_pkg.console import console
+
 
 def view_users_service():
     with get_connection() as conn:
@@ -7,7 +9,7 @@ def view_users_service():
             users = fetch_users(conn)
 
             if not users:
-                print("No registered users")
+                console.print("[error]No registered users[error]")
                 return
 
             print("\nUSERS (DICER)\n")
@@ -25,7 +27,7 @@ def view_scores_service():
             scores = fetch_scores(conn)
 
             if not scores:
-                print("No high scores recorded")
+                console.print("[error]No high scores recorded[error]")
                 return
 
             print("\nHIGH SCORES(DICER)\n")

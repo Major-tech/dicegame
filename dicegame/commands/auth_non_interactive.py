@@ -4,6 +4,7 @@ from dicegame.services.auth import(
     login_service,
     signup_service
 )
+from dicegame.utils.rich_pkg.console import console
 
 
 def login_cmd(args):
@@ -12,7 +13,7 @@ def login_cmd(args):
         args.password = getpass.getpass("Password: ")
 
         if not args.username or not args.password:
-            print("All fields are required!")
+            console.print("[console]All fields are required![warning]")
             continue
 
         break
@@ -23,17 +24,15 @@ def login_cmd(args):
 
 def signup_cmd(args):
     while True:
-#        if not args.username:
         args.username = input("Username: ")
-        #if not args.password:
         args.password = getpass.getpass("Password: ")
 
         if not args.username or not args.password:
-            print("All fields are required!")
+            console.print("[warning]All fields are required![warning]")
             continue
 
         if len(args.password) < 3:
-            print("Password is too short")
+            console.print("[warning]Password is too short[warning]")
             continue
 
         break
