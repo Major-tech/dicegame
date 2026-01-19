@@ -23,7 +23,7 @@ from rich.panel import Panel
 def handle_command_interactive(command,session):
     if command == 'login':
         if session.logged_in:
-            console.print(f"[error]You're already logged in as {session.username}[error]")
+            console.print(f"[error]You're already logged in as {session.username}[/error]")
             return
 
         login_cmd_interactive(session)
@@ -47,7 +47,7 @@ def handle_command_interactive(command,session):
 
     elif command == 'signup':
         if session.logged_in:
-            console.print(f"[error]Log out of the existing account first![error]")
+            console.print(f"[error]Log out of the existing account first![/error]")
             return
 
         signup_cmd_interactive()
@@ -74,12 +74,12 @@ def handle_command_interactive(command,session):
         guess_dice_roll_cmd_interactive(guess,session)
 
     else:
-        console.print("[error]Unknown command[error]")
+        console.print("[error]Unknown command[/error]")
 
 
 def interactive_loop(session):
     console.print(Panel("DICER (Dice rolling game)\nLOG IN TO PLAY",style='bold violet'))
-    console.print("[info]Entering interactive mode.Enter 'exit' to quit[info]")
+    console.print("[info]Entering interactive mode.Enter 'exit' to quit[/info]")
 
     while True:
         try:
@@ -91,12 +91,12 @@ def interactive_loop(session):
                 continue
 
             if command == 'exit':
-                console.print("[info]Exiting out of interactive mode[info]")
+                console.print("[info]Exiting out of interactive mode[/info]")
                 break
 
             handle_command_interactive(command,session)
 
         except KeyboardInterrupt:
-           console.print("[warning]Enter 'exit' to quit interactive mode[warning]")
+           console.print("[warning]Enter 'exit' to quit interactive mode[/warning]")
 
 #0792674857 (junior ndunyu stage)

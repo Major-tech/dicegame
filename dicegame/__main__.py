@@ -24,11 +24,11 @@ def main():
         return 0
     except AppError as e:
         logger.warning(str(e))
-        console.print('[error]',e,'[error]')
+        console.print(f"[error]{e}[/error]")
         return 1
     except Exception as e:
         logger.exception("Unhandled main error")
-        console.print("[error]We experienced some trouble while processing your request[error]",file=sys.stderr)
+        console.print("[error]We experienced some trouble while processing your request[/error]",file=sys.stderr)
         return 1
 
 
@@ -37,7 +37,7 @@ def run() -> int:
         return main()
     except Exception:
         logger.exception("Unhandled run(main) error")
-        console.print("[error]An internal error occurred[error]",file=sys.stderr)
+        console.print("[error]An internal error occurred[/error]",file=sys.stderr)
         return 1
 
 

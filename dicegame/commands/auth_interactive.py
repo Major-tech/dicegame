@@ -20,7 +20,7 @@ def login_cmd_interactive(session):
         password = getpass.getpass("Password: ")
 
         if not username or not password:
-            console.print("[warning]All fields are required![warning]")
+            console.print("[warning]All fields are required![/warning]")
             continue
 
         break
@@ -30,11 +30,11 @@ def login_cmd_interactive(session):
         login_service(username,password)
     except AppError as e:
         logger.warning(str(e))
-        console.print('[error]',e,'[error]')
+        console.print(f"[error]{e}[/error]")
     else:
         # start session
         session.login(username)
-        console.print(f"[success]Logged in as[success] {session.username}")
+        console.print(f"[success]Logged in as[/success] {session.username}")
 
 
 def logout_cmd_interactive(session):

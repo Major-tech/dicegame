@@ -13,7 +13,7 @@ def login_cmd(args):
         args.password = getpass.getpass("Password: ")
 
         if not args.username or not args.password:
-            console.print("[console]All fields are required![warning]")
+            console.print("[console]All fields are required![/warning]")
             continue
 
         break
@@ -28,11 +28,11 @@ def signup_cmd(args):
         args.password = getpass.getpass("Password: ")
 
         if not args.username or not args.password:
-            console.print("[warning]All fields are required![warning]")
+            console.print("[warning]All fields are required![/warning]")
             continue
 
         if len(args.password) < 3:
-            console.print("[warning]Password is too short[warning]")
+            console.print("[warning]Password is too short[/warning]")
             continue
 
         break

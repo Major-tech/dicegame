@@ -9,7 +9,7 @@ def view_users_service():
             users = fetch_users(conn)
 
             if not users:
-                console.print("[error]No registered users[error]")
+                console.print("[error]No registered users[/error]")
                 return
 
             print("\nUSERS (DICER)\n")
@@ -27,7 +27,7 @@ def view_scores_service():
             scores = fetch_scores(conn)
 
             if not scores:
-                console.print("[error]No high scores recorded[error]")
+                console.print("[error]No high scores recorded[/error]")
                 return
 
             print("\nHIGH SCORES(DICER)\n")

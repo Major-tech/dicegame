@@ -19,8 +19,8 @@ def display_dice_roll_service(dice_roll_output: int):
 def guess_dice_roll_service(computer_guess,player_guess,session=None):
     progress_bar()
 
-    console.print(f"\n[info]User guess: {player_guess}[info]")
-    console.print(f"[info]Dice roll result: {computer_guess}[info]")
+    console.print(f"\n[info]User guess: {player_guess}[/info]")
+    console.print(f"[info]Dice roll result: {computer_guess}[/info]")
 
     # correct guess
     match = False
@@ -29,9 +29,9 @@ def guess_dice_roll_service(computer_guess,player_guess,session=None):
         match = True
 
     if match:
-        console.print("[success]\nWIN⭐[success]")
+        console.print("[success]\nWIN⭐[/success]")
     else:
-        console.print("[error]\nLOSE😞[error]")
+        console.print("[error]\nLOSE😞[/error]")
         return
 
     if session:
@@ -40,6 +40,6 @@ def guess_dice_roll_service(computer_guess,player_guess,session=None):
                 add_score(conn,session.username)
 
                 logger.info("score added successfully")
-                console.print(f"\n[success]1 point added for user[success] {session.username}\n")
+                console.print(f"\n[success]1 point added for user[/success] {session.username}\n")
             except Exception as e:
                 raise

@@ -27,7 +27,7 @@ def delete_user_service(user_id):
         try:
             delete_user(conn,user_id)
             logger.info("User deleted successfully")
-            console.print("[succrss]User deleted successfully[success]")
+            console.print("[succrss]User deleted successfully[/success]")
 
         except Exception as e:
             raise
