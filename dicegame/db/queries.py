@@ -9,11 +9,11 @@ def fetch_user(conn,username):
     return cur.fetchone()
 
 
-def delete_user(conn,id_user):
+def delete_player(conn,id_player):
     delete_query = "DELETE FROM users WHERE id = ?"
 
     cur = conn.cursor()
-    cur.execute(delete_query,(id_user,))
+    cur.execute(delete_query,(id_player,))
 
 
 def fetch_users(conn):

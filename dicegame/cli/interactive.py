@@ -4,9 +4,9 @@ from dicegame.commands.auth_interactive import(
     logout_cmd_interactive,
     signup_cmd_interactive
 )
-from dicegame.commands.view_interactive import(
-    view_users_cmd_interactive,
-    view_scores_cmd_interactive
+from dicegame.commands.leaderboard_interactive import(
+    player_list_cmd_interactive,
+    leaderboard_cmd_interactive
 )
 from dicegame.commands.dice_roll_interactive import(
     display_dice_roll_cmd_interactive
@@ -14,7 +14,7 @@ from dicegame.commands.dice_roll_interactive import(
 from dicegame.commands.dice_roll_interactive import guess_dice_roll_cmd_interactive
 from dicegame.utils.dice_roll_utils import get_user_guess
 
-from dicegame.commands.delete_user  import delete_user_cmd
+from dicegame.commands.delete_player  import delete_player_cmd
 from dicegame.utils.dice_roll_utils import not_logged_in
 from dicegame.utils.rich_pkg.console import console
 from rich.panel import Panel
@@ -31,19 +31,19 @@ def handle_command_interactive(command,session):
     elif command == 'logout':
         logout_cmd_interactive(session)
 
-    elif command == 'view users':
+    elif command == 'player list':
         if not session.logged_in:
             not_logged_in()
             return
 
-        view_users_cmd_interactive(session)
+        player_list_cmd_interactive(session)
 
-    elif command == 'view scores':
+    elif command == 'leaderboard':
         if not session.logged_in:
             not_logged_in()
             return
 
-        view_scores_cmd_interactive(session)
+        leaderboard_cmd_interactive(session)
 
     elif command == 'signup':
         if session.logged_in:
@@ -52,11 +52,11 @@ def handle_command_interactive(command,session):
 
         signup_cmd_interactive()
 
-    elif command == 'delete user':
+    elif command == 'player delete':
         if not session.logged_in:
             not_logged_in()
             return
-        delete_user_cmd()
+        delete_player_cmd()
 
     elif command == 'display':
         if not session.logged_in:

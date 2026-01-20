@@ -2,11 +2,11 @@ from dicegame.commands.auth_non_interactive import(
     login_cmd,
     signup_cmd,
 )
-from dicegame.commands.delete_user import delete_user_cmd
+from dicegame.commands.delete_player import delete_player_cmd
 #from dicegame.commands.auth import logout_cmd
-from dicegame.services.view import(
-    view_users_service,
-    view_scores_service
+from dicegame.services.leaderboard import(
+    players_service,
+    leaderboard_service
 )
 from dicegame.cli.interactive import interactive_loop
 from dicegame.session.session import Session
@@ -24,21 +24,26 @@ def dispatch(args):
         interactive_loop(session)
         return
 
+    if args.version:
+        print("dicegame-cli v0.3.1")
+
     if args.command == 'login':
         # login cmd
         login_cmd(args)
         return
 
-    if args.command == 'view':
-        space = inline_space(7)
-
-        if args.view_cmd == 'users':
-            view_users_service()
+    if args.command == 'player':
+        if args.action == 'list':
+            players_service()
             return
 
-        if args.view_cmd == 'scores':
-            view_scores_service()
+        if args.action == 'delete':
+            delete_player_cmd()
             return
+
+    if args.command == 'leaderboard':
+        leaderboard_service()
+        return
 
  #   if args.command == 'logout':
   #      logout_cmd(args)
@@ -46,10 +51,6 @@ def dispatch(args):
 
     if args.command == 'signup':
         signup_cmd(args)
-        return
-
-    if args.command == 'delete':
-        delete_user_cmd()
         return
 
     if args.command == 'display':
