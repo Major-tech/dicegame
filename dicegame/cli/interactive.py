@@ -24,6 +24,9 @@ import sys
 
 def handle_command_interactive(command,session):
     try:
+        if command == 'version':
+            print('dicegame-cli 0.4.0')
+
         if command == 'login':
             if session.logged_in:
                 console.print(f"[error]You're already logged in as {session.username}[/error]")

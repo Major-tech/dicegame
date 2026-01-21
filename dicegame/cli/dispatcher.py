@@ -30,7 +30,7 @@ def dispatch(args):
             return
 
         if args.version:
-            print("dicegame-cli 0.3.1")
+            print("dicegame-cli 0.4.0")
 
         if args.command == 'login':
             # login cmd
