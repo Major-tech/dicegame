@@ -3,8 +3,7 @@ from dicegame.utils.logging import get_logger
 from dicegame.db.schema import init_db
 from dicegame.cli.parser import build_parser
 from dicegame.cli.dispatcher import dispatch
-from dicegame.utils.errors import AppError
-from dicegame.utils.rich_pkg.console import console
+from dicegame.utils.rich_pkg.console import console,err_console
 import sys
 
 
@@ -22,13 +21,9 @@ def main():
     try:
         dispatch(args)
         return 0
-    except AppError as e:
-        logger.warning(str(e))
-        console.print(f"[error]{e}[/error]")
-        return 1
     except Exception as e:
         logger.exception("Unhandled main error")
-        console.print("[error]We experienced some trouble while processing your request[/error]",file=sys.stderr)
+        err_console.print("[error]We experienced some trouble while processing your request[/error]")
         return 1
 
 
@@ -37,7 +32,7 @@ def run() -> int:
         return main()
     except Exception:
         logger.exception("Unhandled run(main) error")
-        console.print("[error]An internal error occurred[/error]",file=sys.stderr)
+        err_console.print("[error]An internal error occurred[/error]")
         return 1
 
 

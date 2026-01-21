@@ -55,7 +55,7 @@ def leaderboard_service():
             )
 
             table.add_column('Serial No.')
-            table.add_column('Players',style='cyan')
+            table.add_column('Player',style='cyan')
             table.add_column('Points',style='magenta')
 
             for i,score in enumerate(scores,start=1):

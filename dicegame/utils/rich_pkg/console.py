@@ -10,3 +10,4 @@ theme = Theme({
 })
 
 console = Console(theme=theme)
+err_console = Console(stderr=True)

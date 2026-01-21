@@ -13,7 +13,7 @@ def login_cmd(args):
         args.password = getpass.getpass("Password: ")
 
         if not args.username or not args.password:
-            console.print("[console]All fields are required![/warning]")
+            console.print("[warning]All fields are required![/warning]")
             continue
 
         break

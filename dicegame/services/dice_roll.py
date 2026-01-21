@@ -1,6 +1,10 @@
-from dicegame.db.queries_interactive import add_score
+from dicegame.db.queries_interactive import(
+    add_score_guess,
+    add_score_play
+)
 from dicegame.db.connection import get_connection
 from dicegame.utils.logging import get_logger
+#from dicegame.utils.dice_roll_ut
 from dicegame.utils.rich_pkg.console import console
 from dicegame.utils.rich_pkg.progress import progress_bar
 
@@ -9,11 +13,53 @@ from dicegame.utils.rich_pkg.progress import progress_bar
 logger = get_logger(__name__)
 
 
-def display_dice_roll_service(dice_roll_output: int):
+def add_points_play_interactive(session):
+    if session:
+        with get_connection() as conn:
+            try:
+                add_score_play(conn,session.username)
+
+                logger.info("score added successfully")
+                console.print(f"\n[success]5 points added for user[/success] {session.username}\n")
+            except Exception as e:                                                                                        raise
+
+
+def add_points_guess_interactive(session):
+    if session:
+        with get_connection() as conn:
+            try:
+                add_score_guess(conn,session.username)
+
+                logger.info("score added successfully")
+                console.print(f"\n[success]10 points added for user[/success] {session.username}\n")
+            except Exception as e:
+                raise
+
+
+def simple_dice_roll_service(dice_roll_output: int):
     # progress bar
     progress_bar()
 
     console.print(f"\nYou rolled a {dice_roll_output}",style='yellow')
+
+
+def play_dice_roll_service(dice_roll_output,session=None):
+    winning_numbers = (4, 5, 6)
+
+    print(f"\nWinning numbers: {winning_numbers}")
+
+    progress_bar()
+
+    print(f"\nDice roll result: {dice_roll_output}")
+
+    if dice_roll_output not in winning_numbers:
+        print('\nLOSE😢')
+        return
+
+    print("\nWIN🥂")
+
+    # INTERACTIVE (ADDING POINTS IF USER WINS)
+    add_points_play_interactive(session)
 
 
 def guess_dice_roll_service(computer_guess,player_guess,session=None):
@@ -34,12 +80,6 @@ def guess_dice_roll_service(computer_guess,player_guess,session=None):
         console.print("[error]\nLOSE😞[/error]")
         return
 
-    if session:
-        with get_connection() as conn:
-            try:
-                add_score(conn,session.username)
+    # INTERACTIVE(ADDING POINTS IF USER WINS)
+    add_points_guess_interactive(session)
 
-                logger.info("score added successfully")
-                console.print(f"\n[success]1 point added for user[/success] {session.username}\n")
-            except Exception as e:
-                raise

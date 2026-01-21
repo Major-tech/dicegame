@@ -26,3 +26,4 @@ def get_user_guess():
 
 def not_logged_in():
     console.print("[error]Not logged in[/error]")
+

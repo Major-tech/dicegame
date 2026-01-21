@@ -9,72 +9,83 @@ from dicegame.commands.leaderboard_interactive import(
     leaderboard_cmd_interactive
 )
 from dicegame.commands.dice_roll_interactive import(
-    display_dice_roll_cmd_interactive
+    simple_dice_roll_cmd_interactive,
+    play_dice_roll_cmd_interactive,
+    guess_dice_roll_cmd_interactive
 )
-from dicegame.commands.dice_roll_interactive import guess_dice_roll_cmd_interactive
+from dicegame.utils.errors import AppError
 from dicegame.utils.dice_roll_utils import get_user_guess
-
 from dicegame.commands.delete_player  import delete_player_cmd
 from dicegame.utils.dice_roll_utils import not_logged_in
 from dicegame.utils.rich_pkg.console import console
 from rich.panel import Panel
+import sys
 
 
 def handle_command_interactive(command,session):
-    if command == 'login':
-        if session.logged_in:
-            console.print(f"[error]You're already logged in as {session.username}[/error]")
-            return
+    try:
+        if command == 'login':
+            if session.logged_in:
+                console.print(f"[error]You're already logged in as {session.username}[/error]")
+                return
 
-        login_cmd_interactive(session)
+            login_cmd_interactive(session)
 
-    elif command == 'logout':
-        logout_cmd_interactive(session)
+        elif command == 'logout':
+            logout_cmd_interactive(session)
 
-    elif command == 'player list':
-        if not session.logged_in:
-            not_logged_in()
-            return
+        elif command == 'player list':
+            if not session.logged_in:
+                not_logged_in()
+                return
 
-        player_list_cmd_interactive(session)
+            player_list_cmd_interactive(session)
 
-    elif command == 'leaderboard':
-        if not session.logged_in:
-            not_logged_in()
-            return
+        elif command == 'leaderboard':
+            if not session.logged_in:
+                not_logged_in()
+                return
 
-        leaderboard_cmd_interactive(session)
+            leaderboard_cmd_interactive(session)
 
-    elif command == 'signup':
-        if session.logged_in:
-            console.print(f"[error]Log out of the existing account first![/error]")
-            return
+        elif command == 'signup':
+            if session.logged_in:
+                console.print(f"[error]Log out of the existing account first![/error]")
+                return
 
-        signup_cmd_interactive()
+            signup_cmd_interactive()
 
-    elif command == 'player delete':
-        if not session.logged_in:
-            not_logged_in()
-            return
-        delete_player_cmd()
+        elif command == 'player delete':
+            delete_player_cmd(session)
 
-    elif command == 'display':
-        if not session.logged_in:
-            not_logged_in()
-            return
+        elif command == 'roll':
+            if not session.logged_in:
+                not_logged_in()
+                return
 
-        display_dice_roll_cmd_interactive(session)
+            simple_dice_roll_cmd_interactive(session)
 
-    elif command == 'guess':
-        if not session.logged_in:
-            not_logged_in()
-            return
+        elif command == 'play':
+            if not session.logged_in:
+                not_logged_in()
+                return
 
-        guess = get_user_guess()
-        guess_dice_roll_cmd_interactive(guess,session)
+            play_dice_roll_cmd_interactive(session)
 
-    else:
-        console.print("[error]Unknown command[/error]")
+        elif command == 'guess':
+            if not session.logged_in:
+                not_logged_in()
+                return
+
+            guess = get_user_guess()
+            guess_dice_roll_cmd_interactive(guess,session)
+
+        else:
+            console.print("[error]Unknown command[/error]")
+
+    except AppError as e:
+        console.print(f"[error] {e} [/error]")
+        sys.exit(1)
 
 
 def interactive_loop(session):

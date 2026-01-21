@@ -7,7 +7,7 @@ def build_parser():
        description="Roll the dice and participate in different types of game options"
     )
 
-    parser.add_argument('-V','--version',help='current app version')
+    parser.add_argument('-V','--version',action='store_true',help='current app version')
 
     parser.add_argument('-i','--interactive',action='store_true',help='Enter interactive mode')
 
@@ -39,8 +39,9 @@ def build_parser():
     player_sub.add_parser('delete',help='delete a player account')
 
 
-    display = subparsers.add_parser('display',help='display computer dice roll result only')
+    roll = subparsers.add_parser('roll',help='simple dice roll,no points awarded')
 
+    play = subparsers.add_parser('play',help='guess the dice roll output,winning numbers are (4,5 or 6)')
 
     guess = subparsers.add_parser('guess', help='guess dice roll result')
     guess.add_argument('user_guess',type=int,choices= [1,2,3,4,5,6], help= "User's guess")
