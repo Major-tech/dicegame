@@ -4,6 +4,7 @@ import time
 
 
 def progress_bar():
+    """Displays a visual progress bar"""
 
     with Progress() as progress:
         task = progress.add_task("[cyan]Rolling dice...",total=10)

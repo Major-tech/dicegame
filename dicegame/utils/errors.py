@@ -3,7 +3,44 @@ class AppError(Exception):
     pass
 
 
+class AuthError(AppError):
+    """Raises unspecified authentication errors"""
+    pass
+
+
+class ResetScoreError(AppError):
+    """Raise errrors related to the reset score command"""
+    pass
+
+
+class ResetPasswordError(AppError):
+    """Raise errrors related to the reset password command"""
+    pass
+
+
+class UnknownCommandError(AppError):
+    """Raised if a command is unknown"""
+    pass
+
+
+class NotLoggedInError(AppError):
+    """Raised when a user tries to logout and there's no active session present"""
+    pass
+
+
+class TooManyInvalidAttemptsError(AppError):
+    """Raised when a user enters too many failed attempts"""
+    def __str__(self):
+        return "Too many invalid attempts"
+
+
+class AllfieldsAreRequiredError(AppError):
+    """Raised if user leaves any required field(s) blank"""
+    pass
+
+
 class UserAlreadyExistsError(AppError):
+    """Aborts signup process if the username entered is  already registered"""
     def __init__(self,username):
         self.username = username
 
@@ -13,15 +50,17 @@ class UserAlreadyExistsError(AppError):
 
 
 class UserNotFoundError(AppError):
+    """Raised if a user's credentials are incorrect"""
     def __str__(self):
         return f"Wrong username or password"
 
 
-class AccountDeletionNotAllowedError(AppError):
-    """Raised when a user tries to delete an account while logged in."""
-    default_message = "For security reasons you cannot delete account while logged in"
+class AlreadyLoggedInError(AppError):
+    """Raised when the login command is called and an active session is currently running"""
+    def __init__(self,username):
+        self.username = username
 
-    def __init__(self, message=None):
-        if message is None:
-            message = self.default_message
-        super().__init__(message)
+
+    def __str__(self):
+        return f"You're already logged in as {self.username}\nLog out first to access login or signup"
+

@@ -1,3 +1,56 @@
+## [0.6.0] 2026-01-30
+
+### Added
+- Reset password command  
+  - Only resets the password of the currently logged-in account
+- `whoami` command  
+  - Shows authentication status and current user
+- `report-bug` command  
+  - Creates a ZIP archive of logs with explicit user consent
+- `log list` command  
+  - Displays all available log files
+- `log clear` command  
+  - Clears all application logs
+- `--debug` flag  
+  - Enables debug-level logging
+
+---
+
+### Changed
+- Automatic login after successful signup
+- Player delete behavior  
+  - Users can only delete the account they are currently logged in to
+- Reset command renamed and reworked  
+  - `reset` → `reset score`
+  - Only affects the logged-in user
+  - Aborts if score is already `0`
+- Interactive mode improvements  
+  - Guest mode enabled
+  - Uses local disk persistence instead of in-memory state
+
+---
+
+### Notes
+- No breaking CLI syntax changes outside renamed reset command
+- Focused on security, privacy, and state correctness
+
+
+
+## [0.5.0] – 2026-01-22
+
+### Added
+- Reset score to zero option with confirmation prompt
+- Database-backed session persistence for CLI usage
+- Local session token storage (single active user at a time)
+- Score persistence for non-interactive mode
+- Score saving support for both `play` and `guess` game modes
+
+### Improved
+- Clear separation between interactive (in-memory) and non-interactive flows
+- Authentication-aware score handling (guest vs logged-in users)
+
+
+
 ## [0.4.0] – 2026-01-21
 
 ### Added
@@ -9,6 +62,7 @@
 ### Fixed
 - Blocked deletion of the currently active account.
 - Added password verification before account deletion in both CLI and interactive modes to improve security.
+
 
 
 ## [0.3.0] - 2026-01-20
@@ -28,10 +82,12 @@
 - Resolved issue where delete success/error message was displayed after three failed delete attempts
 
 
+
 ## [0.2.0] - 2026-01-20
 - Added colorful UI console messages using Rich
 - Added a panel for the interactive session
 - Added a progress bar for the dice roll
+
 
 
 ## [0.1.0] – Initial Milestone - 2026-01-17

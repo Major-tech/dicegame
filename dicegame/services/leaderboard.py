@@ -1,15 +1,18 @@
+from dicegame.session.session_disk import Session
 from dicegame.db.connection import get_connection
 from dicegame.db.queries import fetch_users,fetch_scores
 from dicegame.utils.rich_pkg.console import console
 from rich.table import Table
 
 
-def players_service():
+def player_list_service(session: Session):
+    """Prints out a list of players"""
+
     with get_connection() as conn:
         try:
             players = fetch_users(conn)
 
-            if not players:
+            if not players: # empty database
                 console.print("[error]No registered players[/error]")
                 return
 
@@ -30,18 +33,20 @@ def players_service():
 
                 table.add_row(str(i), player)
 
-            console.print(table,style='blue')
-
         except Exception as e:
             raise
 
+    return console.print(table,style='blue')
 
-def leaderboard_service():
+
+def leaderboard_service(session: Session):
+    """Prints out a list of players and their scores"""
+
     with get_connection() as conn:
         try:
             scores = fetch_scores(conn)
 
-            if not scores:
+            if not scores: # empty database
                 console.print("[error]No high scores recorded[/error]")
                 return
 
@@ -64,7 +69,7 @@ def leaderboard_service():
 
                  table.add_row(str(i),player,score)
 
-            console.print(table,style='yellow')
-
         except Exception as e:
             raise
+
+    return console.print(table,style='yellow')

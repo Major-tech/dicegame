@@ -1,59 +1,149 @@
 from dicegame.db.connection import get_connection
 from dicegame.db.queries import(
     add_user,
-    fetch_user
+    fetch_user,
+    create_session,
+    get_session_details,
+    delete_session,
+    reset_password
 )
-from dicegame.utils.security import verify_password
+from dicegame.utils.security import(
+    verify_password,
+    hash_password
+)
 from dicegame.utils.logging import get_logger
 from dicegame.utils.errors import(
+    AppError,
     UserAlreadyExistsError,
-    UserNotFoundError
+    UserNotFoundError,
+    ResetPasswordError
 )
 import sqlite3
 from dicegame.utils.rich_pkg.console import console
+from dicegame.utils.security import generate_session_token
+from dicegame.session.session_disk import(
+    Session,
+    save_session_token,
+    load_session_token,
+    clear_session_token
+)
+from dicegame.utils.auth import ResetPasswordResult
+from dicegame.utils.common_utils import confirm_reset
 
 
 # logger
 logger = get_logger(__name__)
 
 
-def login_service(username: str,password: str):
+# Check for any running session
+def load_session() -> Session:
+    """Returns a running session object"""
+    token = load_session_token() # get token(str)
+    if token is None:
+        return None
+
+    # Retrieve session user data
+    with get_connection() as conn:
+        try:
+            session_details = get_session_details(conn,token)
+        except Exception as e:
+            raise
+
+    # Session object
+    if session_details:
+        return Session(user_id=session_details['id'],username=session_details['username'],logged_in=True)
+
+
+def login_service(username: str,password: str) -> Session:
+    """Authenticates user login credentials"""
+
     with get_connection() as conn:
         try:
             user = fetch_user(conn,username)
 
             if user is None:
                 logger.warning('Invalid login credentials')
-                raise UserNotFoundError
-                return
+                raise UserNotFoundError()
 
             # verify password
             password_match = verify_password(user['password'],password)
 
             if password_match:
-                logger.info("Successful user login")
-                console.print("[success]Login successful![/success]")
+                # create session
+                token = generate_session_token()
+                create_session(conn,user['id'],token)
 
+                logger.info("Successful user login")
 
             if not password_match:
                 logger.warning("Invalid login credentials")
-                raise UserNotFoundError
+                raise UserNotFoundError()
 
         except Exception as e:
             raise
 
+    # save session_token
+    save_session_token(token)
 
-def signup_service(username: str,password_hash: str):
+    # Return Session obj
+    return Session(user_id= user['id'],username= user['username'],logged_in= True)
+
+
+def signup_service(username: str,password: str,session: Session):
+    """Adds a new user account"""
+
+    # hash password
+    hashed_password = hash_password(password)
+
     with get_connection() as conn:
         try:
-            add_user(conn,username,password_hash)
-            logger.info("Successful user signup")
-            console.print("[success]Sign up was successful![/success]")
+            user = fetch_user(conn,username)
+            if user:
+                logger.warning("username already exists")
+                raise UserAlreadyExistsError(username)
 
-        except sqlite3.IntegrityError as e:
-            logger.warning("username already exists")
-            raise UserAlreadyExistsError(username) from e
+            add_user(conn,username,hashed_password)
+            logger.info("Successful user signup")
 
         except Exception as e:
             raise
+
+    # Auto-login user
+    return login_service(username,password)
+
+
+def logout_service(token: str,session: Session) -> Session:
+    """Ends the current user session and deletes the saved session token from disk"""
+    with get_connection() as conn:
+        try:
+            delete_session(conn,token) # delete token from db
+            clear_session_token() # delete token from disk
+
+            logger.info("User logout successful")
+            # End session
+            return Session(logged_in=False)
+
+        except Exception as e:
+            raise
+
+
+def reset_password_service(password: str,session: Session):
+    """Resets a registered user's password"""
+    with get_connection() as conn:
+        try:
+            if confirm_reset(): # confirm reset password command
+
+                # hash_password
+                hashed_password = hash_password(password)
+                # Reset
+                reset_password(conn,session.username,hashed_password)
+                logger.info("Successful password reset")
+
+                # Return success
+                return ResetPasswordResult(success= True)
+
+        except Exception as e:
+            raise
+
+    return ResetPasswordResult(success= False)
 

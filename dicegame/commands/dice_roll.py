@@ -1,35 +1,46 @@
 from dicegame.services.dice_roll import(
     simple_dice_roll_service,
     play_dice_roll_service,
-    guess_dice_roll_service
+    guess_dice_roll_service,
+    reset_score_service
 )
-from dicegame.utils.dice_roll_utils import get_random_number
+from dicegame.utils.dice_roll_utils import(
+    get_random_number,
+    guest_mode,
+    SimpleDiceRollResult,
+    ResetScoreResult,
+    PlayModeResult,
+    GuessModeResult
+)
+from dicegame.utils.rich_pkg.console import console
+from dicegame.session.session_disk import Session
 
 
-def simple_dice_roll_cmd():
+def simple_dice_roll_cmd(dice_roll_output: int,session: Session) -> SimpleDiceRollResult:
+    """Routes a random number to the service function"""
+
+    return simple_dice_roll_service(dice_roll_output,session)
+
+
+def play_dice_roll_cmd(dice_roll_output,session: Session) -> PlayModeResult:
+    """Returns a random integer in range(1-6)"""
+
+    return play_dice_roll_service(dice_roll_output,session)
+
+
+def guess_dice_roll_cmd(guess: int,session: Session) -> GuessModeResult:
+    """Routes user guess and computer guess to the guess service"""
+
+    # Alert users that scores will not be saved
+    if not session:
+        guest_mode()
+
     dice_roll_result = get_random_number()
-    simple_dice_roll_service(dice_roll_result)
+
+    return guess_dice_roll_service(dice_roll_result,guess,session)
 
 
-def play_dice_roll_cmd():
+def reset_score_cmd(password: str,session: Session) -> ResetScoreResult:
+    """Routes the new password to the service function"""
 
-    for i in range(1, 4):
-        roll = input("\nEnter 'r' to roll the dice: ").lower()
-
-        if roll != "r":
-            print("Please enter 'r'")
-            continue
-        break
-
-    if roll != "r":
-        print("\nToo many invalid attempts")
-        return
-
-    dice_roll_result = get_random_number()
-
-    play_dice_roll_service(dice_roll_result)
-
-
-def guess_dice_roll_cmd(guess: int):
-    dice_roll_result = get_random_number()
-    guess_dice_roll_service(dice_roll_result,guess)
+    return reset_score_service(password,session)

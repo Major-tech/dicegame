@@ -1,19 +1,169 @@
 # Dice Game CLI 🎲
 
-A simple command-line dice game with multiple modes: **roll**, **play**, and **guess the number**.  
-Designed for fun, quick gameplay, and testing your luck and prediction skills.
+- A simple cli dicegame where a player rolls the dice while participating in different game modes and it can be played by anyone
+
+
+## TABLE OF CONTENTS
+- Overview
+- Version and features
+- Installation
+- Usage
+- Configuration
+- Project structure
+- Roadmap
+- License
+
+
+## Overview
+- A simple command-line dice game with multiple modes: **roll**, **play**, and **guess the number**.
+- Designed for fun, quick gameplay, and testing your luck and prediction skills.
+- Players create accounts, roll dice,
+track scores, and compete on a leaderboard.
+
+
+
+## VERSION AND FEATURES
+
+## [0.6.0] - 2026-01-30
+
+**Key updates in this release:**
+
+## Added Features
+
+### Authentication & Accounts
+- User **signup** with automatic login after successful registration
+- **Login / Logout** with session persistence on local disk for cli and interactive modes
+- **Guest mode** included (Now supported also in interactive mode)
+- **whoami** command
+  - Displays `Not logged in` if no user is authenticated
+  - Displays the current username if logged in
+- **player delete**
+  - Only the account currently logged in can be deleted
+- **reset password**
+  - Only allowed for the currently logged-in account
 
 ---
 
-## Interactive Mode
+### Gameplay
+- **reset score** command
+  - Only allowed for the logged-in user
+  - Aborts if the score is already `0`
 
-DiceGame supports an **interactive mode**, letting you run commands step by step without typing full CLI commands every time.
+---
 
-```bash
-python -m dicegame
+### Interactive Mode
+- Full feature parity with non-interactive mode
+- Uses **local disk persistence** (not in-memory state)
+- Guest users can interact without logging in
+
+---
+
+### Logging & Debugging
+- Structured application logging
+- `--debug` flag enables verbose/debug output
+- **log list**
+  - Shows all available log files
+- **log clear**
+  - Clears all application logs
+
+---
+
+### Privacy-Respecting Bug Reporting
+- **report-bug** command
+  - Requests explicit user consent
+  - Packages all application logs into a ZIP file
+  - User manually sends the ZIP to the developer via email
+  - No automatic data transmission
+
+---
+
+## Commands Overview
+
+### Authentication
+- `whoami`
+- `reset password`
+- `player delete`
+
+### Game
+- `reset score`
+
+### Logs & Diagnostics
+- `log list`
+- `log clear`
+- `report-bug`
+
+### Global Flags
+- `--debug` — Enable debug mode
+
+---
+
+## Design Principles
+
+- Clear **command / service separation**
+- Explicit session management via a `Session` domain object
+- Fail-fast validation (authentication, state checks)
+- Privacy-first logging and diagnostics
+- CLI-friendly error handling (no silent failures)
 
 
-## Version and Features
+---------------------------------------
+
+## [0.5.0] - 2026-01-22
+
+**Key updates in this release:**
+
+This release introduces **session persistence**, **improved score management**, and a **clean separation between interactive and non-interactive gameplay**.
+
+Version **0.5.0** focuses on making the CLI more realistic, user-friendly, and aligned with production-grade CLI design.
+
+### Added
+
+### 🔐 Session Persistence for CLI
+- Added **database-backed session handling**
+- Session token is **saved locally** to persist login across runs
+- Only **one active user session** is stored at a time
+- Logout clears the local session
+
+---
+
+### 💾 Score Persistence in CLI/Non-interactive mode
+- Scores are stored in the **database**
+- Leaderboard updates automatically
+- Score persistence now works in:
+  - Interactive mode (since v0.1.0)
+  - Non-interactive mode (Added in v0.5.0)
+  - Both `play` and `guess` commands
+
+---
+
+### 👤 Guest vs Authenticated Play
+- Users may **play without logging in** in CLI only not in interactive mode
+- Guest gameplay:
+  - Uses in-memory state only
+  - Scores are **not saved**
+- Authenticated users:
+  - Have scores persisted
+  - Appear on the leaderboard
+
+---
+
+### 🔄 Reset Score Capability
+- Added **reset score to zero** option (reset)
+- Includes **confirmation prompt** to prevent accidental resets
+- Applies only to the currently logged-in user
+
+---
+
+## 🧩 Architectural Improvements
+
+- Clear separation between:
+  - **Interactive** (in-memory) flows
+  - **Non-interactive** (persistent) flows
+- Authentication-aware score handling
+- Clean boundaries between gameplay, persistence, and session logic
+
+
+---------------------------------------
 
 ## [0.4.0] – 2026-01-21
 
@@ -29,6 +179,8 @@ python -m dicegame
 - Prevented deletion of the currently active account.
 - Added password confirmation for account deletion in both CLI and interactive modes to enhance security.
 
+
+-----------------------------------------
 
 ## [0.3.0] – 2026-01-20
 
@@ -49,6 +201,8 @@ python -m dicegame
 - Resolved issue where delete success/error message was displayed after three failed delete attempts
 
 
+-------------------------------------------
+
 ## [0.2.0] – 2026-01-20
 
 **Key updates in this release:**
@@ -58,35 +212,222 @@ python -m dicegame
 - Added a progress bar animation for the dice roll to enhance visual feedback.
 
 
+---------------------------------------------
+
 ## [0.1.0] 2026-01-17
-- User registration/login
+- User registration and login
 - Secure password hashing (Argon2)
-- SQLite persistence
+- SQLite score storage persistence
 - CLI interface using argparse
+- in-memory state for interactive mode
 
 
-## Tech stack
-- python 3.13
-- argon2
-- sqlite3
-- argparse
+## Authentication & Sessions
+
+- Users can **sign up, log in, and log out**
+- A **session token is saved locally** to persist login across CLI runs
+- Only **one active session** is stored at a time
+- Logging out clears the local session
+
+### Guest Mode
+- Users may play without logging in
+- Guest progress is **kept in memory only**
+- Guest scores are **not saved to the database**
+- Only authenticated users appear on the leaderboard
+
+
+## Game Modes
+
+### Interactive Mode
+- Uses **in-memory state** for active gameplay
+- Dice rolls and guesses are ephemeral
+- Scores are saved to the database at the end of a game (if logged in)
+
+### Non-Interactive Mode
+- Uses **local session persistence**
+- Supports score saving for:
+  - `play`
+  - `guess`
+- Designed for scripted or one-off CLI usage
+
+
+## Installation
+```bash
+
+### Install in editable mode
+pip install -e .
+
+### clone repository
+git clone https://github.com/Major-tech/dicegame-cli.git
+
+### Move into the project directory
+cd dicegame
+
+### Install dependencies
+pip install -r requirements.txt
+
+### Run the project
+python -m dicegame
+
+
+## Development Setup (Recommended)
+
+This project requires **Python 3.10+**
+
+## Optional dependencies
+
+1. Create a virtual environment
+2. Run `pip install .[dev]`
+3. Run tests with `pytest`
+
+If you use `pyenv`, you can install and activate the correct version:
+
+```bash
+pyenv install 3.11.7
+pyenv local 3.11.7
+
+
+## Running Tests
+
+This project includes minimal tests using pytest:
+
+```bash
+pip install pytest
+pytest -v
 
 
 ## Usage
+- prefix 'dicegame' before each command in non-interactive/cli mode
+- In interactive mode,simply type the commamd name and run it
+
 
 | Command | Description |
 |---------|-------------|
+| log list | Shows all available log files |
+| log clear | Clears all application logs |
+| whoami | Displays the currently logged in user |
+| report-bug | Packages application logs into a ZIP file|
+| reset password  | reset player password
 | login   | user login |
-| signup   | user signup |
+| signup   | user signup | 
 | roll    | Simple dice roll |
 | play    | Win/Lose dice game |
 | guess <number> | Guess the dice number |
 | player list | List all players |
 | leaderboard | Show leaderboard |
+| reset score  | reset player score |
 | player delete | Delete an account (requires password) |
 
 
-## Installation
-```bash
-pip install -e .
+| Flag   | Description |
+|------------------------
+| -i | --interactive | Enter interactive mode |
+| -V | --version | View dicegame-cli version |
+| --debug | Enable debug mode |
 
+
+### Practical Examples
+## Usage
+
+Below are example commands demonstrating how to use each feature of the application.
+
+```bash
+## FLAGS
+
+# Enter interactive mode
+dicegame -i | dicegame --interactive 
+
+# View current dicegame-cli version
+dicegame -V | dicegame --version
+
+# Enable debug mode
+dicegame --debug
+
+
+## COMMANDS
+# See a list of all log files
+dicegame log list
+
+# Clear all the application's log files
+dicegame log clear
+
+# Display the currently ligged in user
+dicegame whoami
+
+# Create a bug report and email it to the developer in case an issue arises
+dicegame report-bug
+
+# Create a new user account
+dicegame signup
+- You'll be prompted for a usernmae and password
+
+# Log in to an existing account
+dicegame login
+- You'll be prompted for a usernmae and password
+
+# Roll a dice once and display the result
+dicegame roll
+
+# Play the win/lose dice game
+dicegame play
+
+# Guess the dice number (replace <number> with your guess, e.g. 4)
+dicegame guess 4
+
+## In interactive mode:
+- Type the command 'guess'
+- You'll be prompted for your guess
+
+# Display a list of all registered players
+dicegame player list
+
+# Display the leaderboard sorted by score
+dicegame leaderboard
+
+# Reset the currently logged-in player's score to zero
+dicegame reset score
+
+- You'll gwt a password prompt for verification
+
+# Reset a player's password
+dicegame reset password
+
+- You'll get a password prompt for verification
+
+# Delete the currently logged-in player's account (password required)
+dicegame player delete
+
+- You'll get a password prompt for verification
+
+
+### **Note**
+- If you did not install the app system-wide, replace `dicegame` with:
+- `python -m dicegame`
+- or `python main.py`
+
+- In interactive mode you only type the command without the APP_NAME('dicegame')
+
+
+## 6️⃣ Configuration 
+
+```md
+## Configuration
+The app stores session data in:
+~/.local/share/dice_game/sessions
+
+
+## Project Structure
+project-name/ │ ├─ cli/            # Command-line interface module │  └─ init.py │ ├─ commands/       # User-facing CLI commands (signup, login, roll, play, etc.) │ ├─ db/             # Database access and storage logic │ ├─ logging/        # Logging configuration and helpers │ ├─ services/       # Core business logic / game rules │ ├─ session/        # User session management │ ├─ utils/          # Utility functions used across modules │ ├─ tests/          # Unit and integration tests │ ├─ main.py     # Entry point for python -m project_name └─
+
+
+## Roadmap
+- Multiple player sessions
+
+
+## License
+- MIT License
+
+
+## Author
+Dennis Major
+Email: dennismajor0@gmail.com
