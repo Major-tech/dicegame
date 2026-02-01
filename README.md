@@ -3,11 +3,14 @@
 - A simple cli dicegame where a player rolls the dice while participating in different game modes and it can be played by anyone
 
 
+
 ## TABLE OF CONTENTS
 - Overview
+- Motivation
 - Version and features
 - Installation
 - Usage
+- Versioning
 - Configuration
 - Project structure
 - Roadmap
@@ -19,6 +22,20 @@
 - Designed for fun, quick gameplay, and testing your luck and prediction skills.
 - Players create accounts, roll dice,
 track scores, and compete on a leaderboard.
+
+
+
+## Motivation
+
+This project was born from the desire to **explore Python, CLI design, and application state management** in a hands-on way.  
+
+While small in scope, it serves multiple purposes:  
+- **Experimentation and learning**: Testing out interactive and non-interactive workflows, persistent sessions, and secure user handling.  
+- **Practical tool-building**: Creating a usable CLI for games with score tracking, authentication, and logging.  
+- **Structured development practice**: Applying versioning, releases, and incremental improvements to learn disciplined software evolution.  
+- **Emphasis on reliability and privacy**: Implementing logging, debug flags, and per-user actions with attention to security and user experience.  
+
+In short, this project is as much about **growing as a developer** as it is about providing a functional command-line application.
 
 
 
@@ -251,6 +268,7 @@ Version **0.5.0** focuses on making the CLI more realistic, user-friendly, and a
 - Designed for scripted or one-off CLI usage
 
 
+
 ## Installation
 ```bash
 
@@ -294,6 +312,7 @@ This project includes minimal tests using pytest:
 ```bash
 pip install pytest
 pytest -v
+
 
 
 ## Usage
@@ -408,6 +427,50 @@ dicegame player delete
 - In interactive mode you only type the command without the APP_NAME('dicegame')
 
 
+
+## Versioning Policy
+
+This project follows **Semantic Versioning (SemVer)** using the format `vMAJOR.MINOR.PATCH`.
+
+Because this is a **command-line application**, versioning is defined in terms of **user-facing CLI behavior**, not internal implementation details.
+
+### Pre-1.0 Releases (`0.y.z`)
+- The project is under active development.
+- CLI commands, flags, defaults, and behavior may change between releases.
+- All `0.x.y` versions are considered **pre-release**, even without explicit `-alpha` or `-beta` labels.
+
+### MAJOR Version (`1.0.0`, `2.0.0`, …)
+A MAJOR version change indicates **breaking changes**, including:
+- Removing or renaming commands or subcommands
+- Removing or renaming flags or options
+- Changing command semantics in a way that breaks existing workflows
+- Incompatible changes to persisted data, config formats, or on-disk state
+
+### MINOR Version (`0.6.0` → `0.7.0`)
+A MINOR version introduces:
+- New commands or subcommands
+- New flags or options
+- Backward-compatible behavior improvements
+- New functionality that does not break existing usage
+
+### PATCH Version (`0.6.1`)
+A PATCH version includes:
+- Bug fixes
+- Performance improvements
+- Internal refactoring
+- Documentation updates
+- Logging, diagnostics, or error-message improvements
+
+PATCH releases do **not** introduce breaking changes to CLI syntax or behavior.
+
+### Releases
+- Every meaningful version is tagged (e.g. `v0.6.0`)
+- GitHub Releases are published for tagged versions
+- All `0.x.y` releases are marked as **Pre-release**
+- Stability guarantees begin at `v1.0.0`
+
+
+
 ## 6️⃣ Configuration 
 
 ```md
@@ -416,16 +479,20 @@ The app stores session data in:
 ~/.local/share/dice_game/sessions
 
 
+
 ## Project Structure
 project-name/ │ ├─ cli/            # Command-line interface module │  └─ init.py │ ├─ commands/       # User-facing CLI commands (signup, login, roll, play, etc.) │ ├─ db/             # Database access and storage logic │ ├─ logging/        # Logging configuration and helpers │ ├─ services/       # Core business logic / game rules │ ├─ session/        # User session management │ ├─ utils/          # Utility functions used across modules │ ├─ tests/          # Unit and integration tests │ ├─ main.py     # Entry point for python -m project_name └─
+
 
 
 ## Roadmap
 - Multiple player sessions
 
 
+
 ## License
 - MIT License
+
 
 
 ## Author

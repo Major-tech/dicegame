@@ -43,7 +43,7 @@ def report_bug_service(interactive: bool = True) -> Path | None:
 
     print("\n⚠️  No passwords, tokens, or secrets are included.")
 
-    if interactive:
+    if interactive is True:
         confirm = input("\nCreate bug report archive? [y/N]: ").strip().lower()
         if confirm != "y":
             print("Bug report aborted.")
