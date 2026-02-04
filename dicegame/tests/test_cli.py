@@ -28,6 +28,7 @@ from dicegame.utils.errors import(
     UserAlreadyExistsError
 )
 from dicegame.session.session_disk import Session
+import subprocess
 
 
 # Dummy session for testing
@@ -64,7 +65,6 @@ def test_signup__duplicate_account(dummy_session):
 
     with pytest.raises(UserAlreadyExistsError):
         signup_cmd('testuser','pass123',dummy_session)
-
 
 
 # GAME COMMANDS
@@ -147,6 +147,5 @@ def test_player_create_and_delete_success(dummy_session: Session):
 
     with pytest.raises(UserNotFoundError):
         player_delete_cmd(password,signup_session)
-
 
 

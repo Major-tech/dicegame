@@ -4,7 +4,7 @@ from dicegame.utils.rich_pkg.console import console
 from dicegame.utils.common_utils import confirm_reset
 
 
-def view_logs_service(session: Session):
+def view_logs_service(session: Session) -> list:
     """Prints out all the available app logs stored locally"""
 
     console.print("LOGS\n",style='bold magenta')
@@ -13,7 +13,7 @@ def view_logs_service(session: Session):
         print(i, log)
 
 
-def clear_logs_service(session: Session):
+def clear_logs_service(session: Session) -> bool | None:
     """Deletes all the available app logs stored locally"""
 
     if confirm_reset():
@@ -22,4 +22,4 @@ def clear_logs_service(session: Session):
             file.unlink()
         return True
 
-    return False
+    return None

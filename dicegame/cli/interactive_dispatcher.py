@@ -42,6 +42,7 @@ from dicegame.services.auth import load_session
 from dicegame.commands.report_bug import report_bug_cmd
 from dicegame.commands.logs import view_logs_cmd
 from dicegame.commands.logs import clear_logs_cmd
+from dicegame.utils.errors import not_logged_in
 import sys
 
 
@@ -69,10 +70,16 @@ def interactive_dispatch(session: Session):
                 break
 
             if command == 'log list':
+                #Ensure player is logged in
+                not_logged_in(session)
+
                 view_logs_cmd(session)
                 continue
 
             if command == 'log clear':
+
+                not_logged_in(session)
+
                 clear_logs = clear_logs_cmd(session)
 
                 if clear_logs:
@@ -82,7 +89,17 @@ def interactive_dispatch(session: Session):
                 continue
 
             if command == 'report-bug':
-                report_bug_cmd(session)
+
+                not_logged_in(session)
+
+                archive_path = report_bug_cmd(session)
+
+                if archive_path:
+                    console.print("\n[success]✅ Bug report created:[/success]")
+                    print(archive_path)
+                    console.print("\n[info]You can now attach this file to an issue or email it to support.[/info]")
+                else:
+                    console.print("[info]Bug report aborted[/info]")
                 continue
 
             if command == '--version' or command == '-V':
@@ -133,8 +150,7 @@ def interactive_dispatch(session: Session):
 
             elif command == 'player delete':
                 # Ensure player is logged in
-                if not session or not session.logged_in:
-                    raise AuthError("Log in required to perform this action")
+                not_logged_in(session)
 
                 console.print("DELETE ACCOUNT\n",style= 'bold magenta') # header                                                    
 
@@ -199,8 +215,7 @@ def interactive_dispatch(session: Session):
             elif command == 'reset score':
 
                 # Ensure player is logged in
-                if not session or not session.logged_in:
-                    raise AuthError("Log in required to perform this action")
+                not_logged_in(session)
 
                 console.print("RESET PLAYER SCORE\n",style= 'bold magenta') # header
 
@@ -221,8 +236,7 @@ def interactive_dispatch(session: Session):
             elif command == 'reset password':
 
                 # Ensure player is logged in
-                if not session or not session.logged_in:
-                    raise AuthError("Log in required to perform this action")
+                not_logged_in(session)
 
                 # Get new password
                 args = SimpleNamespace() # Emptybargs object
@@ -239,11 +253,12 @@ def interactive_dispatch(session: Session):
                     console.print("[warning]Password reset aborted[/warning]")
 
             else:
+                logger.exception("Interactive mode: Unknown command given")
                 raise UnknownCommandError("Unknown command")
 
         except KeyboardInterrupt:
            console.print("[warning]Enter 'exit' to quit interactive mode[/warning]")
 
         except AppError as e:
-            logger.exception("Interactive mode: Unknown command given")
+            logger.exception("Interactive mode: AppError")
             console.print(f"[error] {e} [/error]")

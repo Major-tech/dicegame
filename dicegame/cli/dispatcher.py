@@ -39,6 +39,7 @@ from dicegame.utils.dice_roll_utils import(
 from dicegame.commands.report_bug import report_bug_cmd
 from dicegame.commands.logs import view_logs_cmd
 from dicegame.commands.logs import clear_logs_cmd
+from dicegame.utils.errors import not_logged_in
 
 
 # logger
@@ -63,7 +64,14 @@ def dispatch(args,session):
                 return
 
         if args.command == 'report-bug':
-            report_bug_cmd(session)
+            archive_path = report_bug_cmd(session)
+
+            if archive_path:
+                console.print("\n[success]✅ Bug report created:[/success]")
+                print(archive_path)
+                console.print("\n[info]You can now attach this file to an issue or email it to support.[/info]")
+            else:
+                console.print("[info]Bug report aborted[/info]")
             return
 
         if args.version:
@@ -92,9 +100,9 @@ def dispatch(args,session):
                 return
 
             if args.action == 'delete':
-                # Ensure player is logged in
-                if not session or not session.logged_in:
-                    raise AuthError("Log in required to perform this action")
+
+                # Ensure player is logged_in
+                not_logged_in(session)
 
                 console.print("DELETE ACCOUNT\n",style= 'bold magenta') # header
 
@@ -180,8 +188,7 @@ def dispatch(args,session):
             if args.reset_cmd == 'score':
 
                  # Ensure player is logged in
-                if not session or not session.logged_in:
-                    raise AuthError("Log in required to perform this action")
+                not_logged_in(session)
 
                 console.print("RESET PLAYER SCORE\n",style= 'bold magenta') # header
 
@@ -202,8 +209,7 @@ def dispatch(args,session):
             if args.reset_cmd == 'password':
 
                 # Ensure player is logged in
-                if not session or not session.logged_in:
-                    raise AuthError("Log in required to perform this action")
+                not_logged_in(session)
 
                 # Get new password
                 new_password = collect_new_password(args)
@@ -220,7 +226,7 @@ def dispatch(args,session):
                 return
 
     except AppError as e:
-        logger.error(e)
+        logger.exception("CLI mode: AppError")
         console.print(f"[error] {e} [/error]")
         return
 

@@ -1,3 +1,6 @@
+from dicegame.session.session_disk import Session
+
+
 class AppError(Exception):
     """Base class for all domain errors"""
     pass
@@ -64,3 +67,14 @@ class AlreadyLoggedInError(AppError):
     def __str__(self):
         return f"You're already logged in as {self.username}\nLog out first to access login or signup"
 
+
+
+# FUNCTIONS
+def not_logged_in(session: Session):
+    """Raises AuthError if a user is not logged in"""
+
+    # Ensure player is logged in
+    if not session or not session.logged_in:
+        raise AuthError("Log in required to perform this action")
+
+    return

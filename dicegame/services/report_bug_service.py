@@ -6,6 +6,7 @@ import platform
 
 from dicegame.logging.config import LOG_DIR
 from dicegame.logging.config import redact
+from dicegame.session.session_disk import Session
 
 
 APP_NAME = "dicegame-cli"
@@ -27,7 +28,7 @@ def _collect_logs() -> list[Path]:
     return sorted(LOG_DIR.glob("*.log"))
 
 
-def report_bug_service(interactive: bool = True) -> Path | None:
+def report_bug_service(session: Session) -> Path | None:
     logs = _collect_logs()
     metadata = _collect_metadata()
 
@@ -43,11 +44,10 @@ def report_bug_service(interactive: bool = True) -> Path | None:
 
     print("\n⚠️  No passwords, tokens, or secrets are included.")
 
-    if interactive is True:
-        confirm = input("\nCreate bug report archive? [y/N]: ").strip().lower()
-        if confirm != "y":
-            print("Bug report aborted.")
-            return None
+    #if interactive is True:
+    confirm = input("\nCreate bug report archive? [y/N]: ").strip().lower()
+    if confirm != "y":
+        return None
 
     report_dir = Path.home() / ".local/share" / APP_NAME / "reports"
     report_dir.mkdir(parents=True, exist_ok=True)
@@ -62,9 +62,5 @@ def report_bug_service(interactive: bool = True) -> Path | None:
 
         for log in logs:
             zf.write(log, arcname=f"logs/{log.name}")
-
-    print("\n✅ Bug report created:")
-    print(archive_path)
-    print("\nYou can now attach this file to an issue or email it to support.")
 
     return archive_path

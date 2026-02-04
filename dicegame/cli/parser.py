@@ -32,7 +32,23 @@ def build_parser():
     subparsers.add_parser('report-bug',help='Report and send bugs to the developer')
 
 
-    subparsers.add_parser('whoami',help='Display the currently logged-in user')
+    subparsers.add_parser(
+        'whoami',
+        help='Display the currently logged-in user',
+        description=(
+            "Shows information about the active session.\n"
+            "If you're logged in, it displays your username.\n"
+            "If no session is active it lets you know you're not logged in.\n"
+        ),
+        epilog=(
+            "Examples: \n"
+            "  whoami: \n"
+            "    testuser\n"
+            "Notes:\n"
+            "  - This command does not modify your session\n"
+            "  - It works in both CLI and Interactive mode\n"
+        ),
+    )
 
 
     signup = subparsers.add_parser('signup', help="user sign up")
