@@ -32,9 +32,6 @@ logger = get_logger(__name__)
 def simple_dice_roll_service(dice_roll_output: int,session: Session) -> SimpleDiceRollResult:
     """Returns the simple dice roll output"""
 
-    # progress bar
-    progress_bar()
-
     return SimpleDiceRollResult(guess= dice_roll_output)
 
 
@@ -43,13 +40,6 @@ def play_dice_roll_service(dice_roll_output: int,session: Session) -> PlayModeRe
 
     winning_numbers = (4, 5, 6)
 
-    print(f"\nWinning numbers: {winning_numbers}")
-
-    progress_bar() # dice roll progress
-
-     # Dice roll result
-    print(f"\nDice roll result: {dice_roll_output}")
-
     # variables
     player_has_won = dice_roll_output in winning_numbers
 
@@ -57,10 +47,10 @@ def play_dice_roll_service(dice_roll_output: int,session: Session) -> PlayModeRe
     if not session:
         # Win
         if player_has_won:
-            return PlayModeResult(success= True,logged_in= False)
+            return PlayModeResult(success= True,lucky_number= dice_roll_output,logged_in= False)
         # Lose
         else:
-            return PlayModeResult(success= False,logged_in= False)
+            return PlayModeResult(success= False,lucky_number= dice_roll_output,logged_in= False)
 
     # If player is logged in
     if session and session.logged_in:
@@ -72,23 +62,17 @@ def play_dice_roll_service(dice_roll_output: int,session: Session) -> PlayModeRe
                     add_score_play(conn,session.username)
                     logger.info("score added successfully")
 
-                    return PlayModeResult(success= True,logged_in= True)
+                    return PlayModeResult(success= True,lucky_number= dice_roll_output,logged_in= True)
                 except Exception as e:
                     raise
 
         # Lose
         else:
-            return PlayModeResult(success= False,logged_in= True)
+            return PlayModeResult(success= False,lucky_number= dice_roll_output,logged_in= True)
 
 
 def guess_dice_roll_service(computer_guess: int,player_guess: int,session: Session) -> GuessModeResult:
     """Returns the guess mode dice roll output"""
-
-    progress_bar() # dice roll progress
-
-    # Dice roll results
-    console.print(f"\n[info]User guess: {player_guess}[/info]")
-    console.print(f"[info]Dice roll result: {computer_guess}[/info]")
 
     # Evaluate to True if computer guess == player guess
     player_has_won = False
@@ -100,11 +84,10 @@ def guess_dice_roll_service(computer_guess: int,player_guess: int,session: Sessi
     if not session:
         # Win
         if player_has_won:
-            return GuessModeResult(success= True,lucky_number= computer_guess,logged_in= False)
+            return GuessModeResult(success= True,lucky_number= computer_guess,user_guess= player_guess,logged_in= False)
         # Lose
         else:
-            return GuessModeResult(success= False,lucky_number= computer_guess,logged_in= False)
-
+            return GuessModeResult(success= False,lucky_number= computer_guess,user_guess= player_guess,logged_in= False)
 
     # If player is logged in
     if session and session.logged_in:
@@ -115,14 +98,14 @@ def guess_dice_roll_service(computer_guess: int,player_guess: int,session: Sessi
                     add_score_guess(conn,session.username)
                     logger.info("score added successfully")
 
-                    return GuessModeResult(success= True,lucky_number= computer_guess,logged_in= True)
+                    return GuessModeResult(success= True,lucky_number= computer_guess,user_guess= player_guess,logged_in= True)
 
                 except Exception as e:
                     raise
 
         # Lose
         else:
-            return GuessModeResult(success= False,lucky_number= computer_guess,logged_in= True)
+            return GuessModeResult(success= False,lucky_number= computer_guess,user_guess= player_guess,logged_in= True)
 
 
 def reset_score_service(password: str,session: Session) -> ResetScoreResult:
@@ -161,3 +144,4 @@ def reset_score_service(password: str,session: Session) -> ResetScoreResult:
             raise
 
     return ResetScoreResult(success= False,previous_score= 0)
+

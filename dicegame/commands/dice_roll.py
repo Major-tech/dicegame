@@ -14,16 +14,23 @@ from dicegame.utils.dice_roll_utils import(
 )
 from dicegame.utils.rich_pkg.console import console
 from dicegame.session.session_disk import Session
+from dicegame.utils.rich_pkg.progress import progress_bar
 
 
 def simple_dice_roll_cmd(dice_roll_output: int,session: Session) -> SimpleDiceRollResult:
     """Routes a random number to the service function"""
+
+    progress_bar() # dice roll progress
 
     return simple_dice_roll_service(dice_roll_output,session)
 
 
 def play_dice_roll_cmd(dice_roll_output,session: Session) -> PlayModeResult:
     """Returns a random integer in range(1-6)"""
+
+    print(f"\nWinning numbers: 4, 5 or 6")
+
+    progress_bar() # dice roll progress
 
     return play_dice_roll_service(dice_roll_output,session)
 
@@ -34,6 +41,8 @@ def guess_dice_roll_cmd(guess: int,session: Session) -> GuessModeResult:
     # Alert users that scores will not be saved
     if not session:
         guest_mode()
+
+    progress_bar() # dice roll progres
 
     dice_roll_result = get_random_number()
 

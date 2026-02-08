@@ -131,10 +131,10 @@ def interactive_dispatch(session: Session):
                 console.print("[success]User logged out successfully[/success]")
 
             elif command == 'player list':
-                player_list_service()
+                player_list_cmd(session)
 
             elif command == 'leaderboard':
-                leaderboard_service()
+                leaderboard_cmd(session)
 
             elif command == 'signup':
                 # Check login status before initiating logging command
@@ -180,6 +180,10 @@ def interactive_dispatch(session: Session):
 
                 # Get PlayModeResult instance
                 win = play_dice_roll_cmd(dice_roll_result,session)
+
+                # Dice roll result
+                console.print(f"\n[info]Dice roll result: {win.lucky_number}[/info]")
+
                 # If player wins whether they are logged in or not
                 if win.success:
                     console.print("[success]\nWIN🥂[/success]")
@@ -199,6 +203,11 @@ def interactive_dispatch(session: Session):
                 guess = get_user_guess(args)
                 # Get GuessModeResult instance
                 win = guess_dice_roll_cmd(guess,session)
+
+                # Dice roll results
+                console.print(f"\n[info]User guess: {win.user_guess}[/info]")
+                console.print(f"[info]Dice roll result: {win.lucky_number}[/info]")
+
                 # If player wins whether they are logged in or not
                 if win.success:
                     console.print("[success]\nWIN🥂[/success]")

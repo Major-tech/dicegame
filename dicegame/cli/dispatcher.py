@@ -150,6 +150,10 @@ def dispatch(args,session):
 
             # Get PlayModeResult instance
             win = play_dice_roll_cmd(dice_roll_result,session)
+
+            # Dice roll result
+            console.print(f"\n[info]Dice roll result: {win.lucky_number}[/info]")
+
             # If player wins whether they are logged in or not
             if win.success:
                 console.print("[success]\nWIN🥂[/success]")
@@ -168,6 +172,10 @@ def dispatch(args,session):
 
             # Get GuessModeResult instance
             win = guess_dice_roll_cmd(args.user_guess,session)
+
+            # Dice roll results
+            console.print(f"\n[info]User guess: {win.user_guess}[/info]")
+            console.print(f"[info]Dice roll result: {win.lucky_number}[/info]")
 
             # If player wins whether they are logged in or not
             if win.success:

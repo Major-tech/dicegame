@@ -51,6 +51,7 @@ class SimpleDiceRollResult:
 @dataclass
 class PlayModeResult:
     success: bool
+    lucky_number: int
     logged_in: bool
 
 
@@ -59,6 +60,7 @@ class PlayModeResult:
 class GuessModeResult:
     success: bool
     lucky_number: int
+    user_guess: int
     logged_in: bool
 
 
