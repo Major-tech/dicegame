@@ -3,7 +3,7 @@ import argparse
 
 def build_parser() -> argparse.ArgumentParser:
     """
-    DiceGame CLI Parser
+    dicegame CLI Parser
 
     Professional behavior:
     - Running `dicegame` with no args shows help/usage.
@@ -14,7 +14,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="dicegame",
         description=(
-            "DiceGame — a CLI dice rolling game.\n\n"
+            "dicegame — a CLI dice rolling game.\n\n"
             "Play dice challenges, manage user accounts, view leaderboards,\n"
             "and interact with the game directly from your terminal."
         ),

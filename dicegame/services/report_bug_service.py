@@ -9,7 +9,7 @@ from dicegame.logging.config import redact
 from dicegame.session.session_disk import Session
 
 
-APP_NAME = "dicegame-cli"
+APP_NAME = "dicegame"
 
 
 def _collect_metadata() -> dict:
