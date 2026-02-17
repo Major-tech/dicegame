@@ -48,8 +48,11 @@ def collect_auth_credentials(args):
             username = input("Username*: ").strip()
 
         password = getattr(args, "password", None)
-        if not password:
-            password = getpass.getpass("Password*: ").strip()
+        # Warn against using the --password flag for security purposes
+        if password:
+            console.print("[warning]\nWarning: --password flag is ignored for security reasons. You will be prompted for your password.[/warning]\n")
+
+        password = getpass.getpass("Password*: ").strip()
 
         attempts -= 1
         if attempts == 0:
@@ -60,6 +63,7 @@ def collect_auth_credentials(args):
             continue
 
         if not username or not password: # Blank field(s)
+
             console.print("[warning]All fields are required![/warning]")
             continue
 
@@ -143,7 +147,7 @@ def who_am_i(session: Session) -> str:
 
     # show logged-in user
     if session and session.logged_in:
-        return f"{session.username}"
+        return f"Logged in as: {session.username}"
 
     raise NotLoggedInError("Not logged in") # No active user session present
 

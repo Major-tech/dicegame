@@ -74,10 +74,6 @@ def dispatch(args,session):
                 console.print("[info]Bug report aborted[/info]")
             return
 
-        if args.version:
-            print("dicegame-cli 0.6.0")
-            return
-
         if args.command == 'whoami':
             user = who_am_i(session)
             console.print(user)
@@ -241,8 +237,7 @@ def dispatch(args,session):
     except Exception as e:
         logger.exception("Unhandled main error")
         err_console.print("An internal error occurred",style='bold red')
-        raise
-     #   sys.exit(1) # use this in production, not raise
+        sys.exit(1) # use this in production, not raise
 
     except KeyboardInterrupt:
         console.print("[error]\n\nExiting...[/error]")

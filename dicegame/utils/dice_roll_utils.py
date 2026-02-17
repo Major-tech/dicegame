@@ -68,7 +68,7 @@ class GuessModeResult:
 @dataclass
 class RemovePlayerResult:
     success: bool
-    username: str
+    username: str | None = None
 
 
 #--------------------INTERACTIVE--------------------

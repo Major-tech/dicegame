@@ -5,6 +5,7 @@ from dicegame.utils.security import verify_password
 from dicegame.utils.errors import UserNotFoundError
 from dicegame.session.session_disk import Session
 from dicegame.utils.dice_roll_utils import RemovePlayerResult
+from dicegame.utils.common_utils import confirm_reset
 
 
 # logger
@@ -24,10 +25,11 @@ def player_delete_service(password: str,session: Session) -> RemovePlayerResult:
             password_is_correct = verify_password(player['password'],password)
 
             if password_is_correct: # correct password
-                delete_player(conn,player['id'])
-                logger.info('Player deleted successfully')
+                if confirm_reset():
+                    delete_player(conn,player['id'])
+                    logger.info('Player deleted successfully')
 
-                return RemovePlayerResult(success= True,username= player['username'])
+                    return RemovePlayerResult(success= True,username= player['username'])
 
             else: # wrong password
                 logger.warning("Invalid login credentials")

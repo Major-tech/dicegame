@@ -16,6 +16,7 @@ ERROR_LOG_FILE = LOG_DIR/ 'error.log'
 
 # USER PRIVACY RESPECTING LOGGING CONFIG
 SENSITIVE_KEYS = {  # This info will not be sent to developer for debugging
+    "username",
     "password",
     "pass",
     "token",
@@ -96,7 +97,7 @@ def setup_logger(level: int = logging.INFO) -> None:
     root_logger.handlers.clear()
     root_logger.addHandler(app_log_handler)
     root_logger.addHandler(error_log_handler)
-    root_logger.addHandler(console_handler)
+#    root_logger.addHandler(console_handler)
 
  #   root_logger.propagate = False
 #    return root_logger

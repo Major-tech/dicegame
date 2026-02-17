@@ -41,6 +41,18 @@ In short, this project is as much about **growing as a developer** as it is abou
 
 ## VERSION AND FEATURES
 
+## [0.7.0] - 2026-02-17
+
+**Key updates in this release:**
+
+## Added Features
+- Informative command help.
+- Automatic help if no arguments are provided.
+- Redaction of sensitive information in logs for privacy
+
+
+---------------------------------------------
+
 ## [0.6.0] - 2026-01-30
 
 **Key updates in this release:**

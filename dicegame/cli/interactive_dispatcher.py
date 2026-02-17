@@ -43,6 +43,7 @@ from dicegame.commands.report_bug import report_bug_cmd
 from dicegame.commands.logs import view_logs_cmd
 from dicegame.commands.logs import clear_logs_cmd
 from dicegame.utils.errors import not_logged_in
+from dicegame.version import get_version
 import sys
 
 
@@ -102,8 +103,8 @@ def interactive_dispatch(session: Session):
                     console.print("[info]Bug report aborted[/info]")
                 continue
 
-            if command == '--version' or command == '-V':
-                print('dicegame-cli 0.6.0')
+            if command == 'version':
+                console.print(f"dicegame v{get_version()}")
                 continue
 
             if command == 'whoami':
@@ -271,3 +272,6 @@ def interactive_dispatch(session: Session):
         except AppError as e:
             logger.exception("Interactive mode: AppError")
             console.print(f"[error] {e} [/error]")
+        except Exception as e:
+            logger.exception("Interactive mode: Unhandled error")
+            console.print("[error] An unexpected error occurred [/error]")

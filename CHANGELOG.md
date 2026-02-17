@@ -1,3 +1,18 @@
+## [v0.7.0] - 2026-02-17
+### Added
+- Informative help messages for all commands, improving user guidance.
+- Automatic help display when no arguments are provided.
+- Redacting sensitive information in logs and outputs (e.g., usernames).
+
+### Changed
+- Refactored argument parsing to better support global flags and subcommands.
+
+### Fixed
+- Previously ignored global flags when no command was provided.
+- Ensured safe logging practices for sensitive data.
+
+---
+
 ## [0.6.0] 2026-01-30
 
 ### Added

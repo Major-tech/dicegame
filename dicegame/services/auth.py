@@ -29,6 +29,7 @@ from dicegame.session.session_disk import(
 )
 from dicegame.utils.auth import ResetPasswordResult
 from dicegame.utils.common_utils import confirm_reset
+from dicegame.logging.config import redact,_redact_value
 
 
 # logger
@@ -61,31 +62,34 @@ def login_service(username: str,password: str) -> Session:
         try:
             user = fetch_user(conn,username)
 
+            # Redact sensitive info
+            safe_username = redact({'username': username})
+
             if user is None:
                 logger.warning('Invalid login credentials')
                 raise UserNotFoundError()
 
-            # verify password
+            # Verify password
             password_match = verify_password(user['password'],password)
 
             if password_match:
-                # create session
+                # Create session
                 token = generate_session_token()
                 create_session(conn,user['id'],token)
 
-                logger.info("Successful user login")
+                logger.info(f"User {safe_username} logged in successfully.")
 
             if not password_match:
-                logger.warning("Invalid login credentials")
+                logger.warning(f"Failed login attempt for user, {safe_username}")
                 raise UserNotFoundError()
 
         except Exception as e:
             raise
 
-    # save session_token
+    # Save session_token
     save_session_token(token)
 
-    # Return Session obj
+    # Return a session object
     return Session(user_id= user['id'],username= user['username'],logged_in= True)
 
 
@@ -95,20 +99,23 @@ def signup_service(username: str,password: str,session: Session):
     # hash password
     hashed_password = hash_password(password)
 
+    # Redact sensitive info
+    safe_username = redact({'username': username})
+
     with get_connection() as conn:
         try:
             user = fetch_user(conn,username)
             if user:
-                logger.warning("username already exists")
+                logger.warning(f"User {safe_username} already exists")
                 raise UserAlreadyExistsError(username)
 
             add_user(conn,username,hashed_password)
-            logger.info("Successful user signup")
+            logger.info(f"Successful signup for user, {safe_username}")
 
         except Exception as e:
             raise
 
-    # Auto-login user
+    # Automatic login for new users
     return login_service(username,password)
 
 
@@ -119,7 +126,8 @@ def logout_service(token: str,session: Session) -> Session:
             delete_session(conn,token) # delete token from db
             clear_session_token() # delete token from disk
 
-            logger.info("User logout successful")
+            # Redact sensitive info
+            logger.info(f"User {redact({'username': session.username})} logged out successfully")
             # End session
             return Session(logged_in=False)
 
