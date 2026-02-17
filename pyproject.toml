@@ -8,10 +8,10 @@ version = "0.7.0"
 description = "A simple CLI dice game"
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "MIT" }
+license = { file = "LICENSE" }
 
 authors = [
-    { name = "Dennis Major",email = 'dennismajor0@gmail.com'}
+    { name = "Dennis Major",email = "dennismajor0@gmail.com"}
 ]
 
 maintainers = [
@@ -23,7 +23,10 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
     "License :: OSI Approved :: MIT License",
-    "Environment :: Console"
+    "Environment :: Console",
+    "Operating System :: OS Independent",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Games/Entertainment"
 ]
 
 keywords = ["game", "dice", "cli", "python"]
@@ -38,6 +41,12 @@ dev = [
   "pytest>=7.0",
   "pytest-cov>=4.0"
 ]
+
+[project.urls]
+Homepage = "https://github.com/Major-tech/dicegame"
+Repository = "https://github.com/Major-tech/dicegame"
+Issues = "https://github.com/Major-tech/dicegame/issues"
+
 
 [project.scripts]
 dicegame = "dicegame.__main__:main"

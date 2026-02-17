@@ -368,8 +368,11 @@ Below are example commands demonstrating how to use each feature of the applicat
 # Enter interactive mode
 dicegame -i | dicegame --interactive 
 
-# View current dicegame-cli version
+# View current dicegame version
 dicegame -V | dicegame --version
+
+## In interactive mode:
+- Type the command 'version'
 
 # Enable debug mode
 dicegame --debug
@@ -437,7 +440,6 @@ dicegame player delete
 - or `python main.py`
 
 - In interactive mode you only type the command without the APP_NAME('dicegame')
-
 
 
 ## Versioning Policy
