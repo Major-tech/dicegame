@@ -2,13 +2,16 @@
 requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools]
+include-package-data = true
+
 [project]
 name = "dicegame"
-version = "0.7.1"
+version = "0.7.2"
 description = "A simple CLI dice game"
 readme = "README.md"
 requires-python = ">=3.10"
-license = { file = "LICENSE" }
+license = { text = "MIT" }
 
 authors = [
     { name = "Dennis Major",email = "dennismajor0@gmail.com"}
@@ -50,3 +53,4 @@ Issues = "https://github.com/Major-tech/dicegame/issues"
 
 [project.scripts]
 dicegame = "dicegame.__main__:main"
+
