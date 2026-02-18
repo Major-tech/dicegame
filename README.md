@@ -38,6 +38,16 @@ While small in scope, it serves multiple purposes:
 In short, this project is as much about **growing as a developer** as it is about providing a functional command-line application.
 
 
+## 📦 DiceGame is now on PyPI!
+
+I’m excited to announce that **DiceGame** is officially published on PyPI.  
+You can install it using:
+
+```bash
+pip install dicegame
+
+Check out the PyPI page here: https://pypi.org/project/dicegame/
+
 
 ## VERSION AND FEATURES
 
