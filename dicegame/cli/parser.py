@@ -1,3 +1,4 @@
+
 import argparse
 
 
@@ -22,7 +23,13 @@ def build_parser() -> argparse.ArgumentParser:
         epilog=(
             "Quick Examples:\n"
             "  dicegame signup --username dennis --password secret\n"
-            "  dicegame login --username dennis --password secret\n"
+            "  dicegame login --username dennis --password secret\n\n"
+
+            "  ⚠️ Note: The `--password` flag is ignored for security reasons.\n"
+            "  Command-line passwords can leak via shell history or process lists.\n"
+            "  So dicegame always prompts securely instead. For best practice, omit `--password` entirely.\n"
+            "  It appears only as a reference for automation tools that may inject credentials via secure prompts or environment-based workflows.\n\n"
+
             "  dicegame play\n"
             "  dicegame guess 4\n"
             "  dicegame leaderboard\n"
@@ -160,6 +167,9 @@ def build_parser() -> argparse.ArgumentParser:
         description=(
             "Registers a new user account.\n\n"
             "You must provide a username and password."
+            """ ⚠️ Note: The `--password` flag is ignored for security reasons.
+            Command-line passwords can leak via shell history or process lists, so dicegame always                    prompts securely instead. For best practice, omit `--password` entirely.                                  it appears only as a reference for automation tools that may inject credentials via
+            secure prompts or environment-based workflows.\n"""
         ),
         epilog="Example:\n  dicegame signup --username dennis --password secret\n",
         formatter_class=argparse.RawTextHelpFormatter,
@@ -285,8 +295,7 @@ def build_parser() -> argparse.ArgumentParser:
         help="Start a scoring dice game round in 'play' mode.",
         description=(
             "Begins a dice guessing game in 'play' mode.\n\n"
-            "Winning numbers are between 4, 5 and 6.\n"
-            "Correct guesses earn points."
+            "Winning dice roll numbers are between 4, 5 and 6.\n"
         ),
         epilog="Example:\n  dicegame play\n",
         formatter_class=argparse.RawTextHelpFormatter,

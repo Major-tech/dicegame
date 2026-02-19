@@ -6,10 +6,10 @@
 
 ## TABLE OF CONTENTS
 - Overview
-- Motivation
-- Version and features
 - Installation
 - Usage
+- Motivation
+- Version and Features 
 - Versioning
 - Configuration
 - Project structure
@@ -24,18 +24,163 @@
 track scores, and compete on a leaderboard.
 
 
+## Installation
+```bash
 
-## Motivation
+### clone repository
+git clone https://github.com/Major-tech/dicegame-cli.git
 
-This project was born from the desire to **explore Python, CLI design, and application state management** in a hands-on way.  
+### Install in editable mode
+pip install -e . 
 
-While small in scope, it serves multiple purposes:  
-- **Experimentation and learning**: Testing out interactive and non-interactive workflows, persistent sessions, and secure user handling.  
-- **Practical tool-building**: Creating a usable CLI for games with score tracking, authentication, and logging.  
-- **Structured development practice**: Applying versioning, releases, and incremental improvements to learn disciplined software evolution.  
-- **Emphasis on reliability and privacy**: Implementing logging, debug flags, and per-user actions with attention to security and user experience.  
+### Run the project
+python -m dicegame
 
-In short, this project is as much about **growing as a developer** as it is about providing a functional command-line application.
+## Development Setup (Recommended)
+
+This project requires **Python 3.10+**
+
+## Optional dependencies
+
+1. Create a virtual environment
+2. Run `pip install .[dev]`
+3. Run tests with `pytest`
+
+If you use `pyenv`, you can install and activate the correct version:
+
+```bash
+pyenv install 3.11.7
+pyenv local 3.11.7
+
+
+## Running Tests
+
+This project includes minimal tests using pytest:
+
+```bash
+pip install pytest
+pytest -v
+
+
+## Usage
+- prefix 'dicegame' before each command in non-interactive/cli mode
+- In interactive mode,simply type the commamd name and run it
+
+
+| Command | Description |
+|---------|-------------|
+| log list | Shows all available log files |
+| log clear | Clears all application logs |
+| whoami | Displays the currently logged in user |
+| report-bug | Packages application logs into a ZIP file|
+| reset password  | reset player password
+| login   | user login |
+| signup   | user signup | 
+| roll    | Simple dice roll |
+| play    | Win/Lose dice game |
+| guess <number> | Guess the dice number |
+| player list | List all players |
+| leaderboard | Show leaderboard |
+| reset score  | reset player score |
+| player delete | Delete an account (requires password) |
+
+
+| Flag   | Description |
+|------------------------
+| -i | --interactive | Enter interactive mode |
+| -V | --version | View dicegame-cli version |
+| --debug | Enable debug mode |
+
+
+### Practical Examples
+## Usage
+
+Below are example commands demonstrating how to use each feature of the application.
+
+```bash
+## FLAGS
+
+# Enter interactive mode
+dicegame -i | dicegame --interactive 
+
+# View current dicegame version
+dicegame -V | dicegame --version
+
+## In interactive mode:
+- Type the command 'version'
+
+# Enable debug mode
+dicegame --debug
+
+
+## COMMANDS
+# See a list of all log files
+dicegame log list
+
+# Clear all the application's log files
+dicegame log clear
+
+# Display the currently ligged in user
+dicegame whoami
+
+# Create a bug report and email it to the developer in case an issue arises
+dicegame report-bug
+
+# Create a new user account
+dicegame signup
+- You'll be prompted for a usernmae and password
+
+dicegame signup --username new_user
+- You'll be prompted for a password
+
+# Log in to an existing account
+dicegame login
+- You'll be prompted for a usernmae and password
+
+dicegame login --username testuser
+- You'll be prompted for a password
+
+# Roll a dice once and display the result
+dicegame roll
+
+# Play the win/lose dice game
+dicegame play
+
+# Guess the dice number (replace <number> with your guess, e.g. 4)
+dicegame guess 4
+
+## In interactive mode:
+- Type the command 'guess'
+- You'll be prompted for your guess
+
+# Display a list of all registered players
+dicegame player list
+
+# Display the leaderboard sorted by score
+dicegame leaderboard
+
+# Reset the currently logged-in player's score to zero
+dicegame reset score
+
+- You'll gwt a password prompt for verification
+
+# Reset a player's password
+dicegame reset password
+
+- You'll get a password prompt for verification
+
+# Delete the currently logged-in player's account (password required)
+dicegame player delete
+
+- You'll get a password prompt for verification
+
+
+### **Note**
+- If you did not install the app system-wide, replace `dicegame` with:
+- `python -m dicegame`
+- or `python main.py`
+
+- In interactive mode you only type the command without the APP_NAME('dicegame')
 
 
 ## 📦 DiceGame is now on PyPI!
@@ -47,6 +192,19 @@ You can install it using:
 pip install dicegame
 
 Check out the PyPI page here: https://pypi.org/project/dicegame/
+ 
+ 
+## Motivation
+
+This project was born from the desire to **explore Python, CLI design, and application state management** in a hands-on way.  
+
+While small in scope, it serves multiple purposes:  
+- **Experimentation and learning**: Testing out interactive and non-interactive workflows, persistent sessions, and secure user handling.  
+- **Practical tool-building**: Creating a usable CLI for games with score tracking, authentication, and logging.  
+- **Structured development practice**: Applying versioning, releases, and incremental improvements to learn disciplined software evolution.  
+- **Emphasis on reliability and privacy**: Implementing logging, debug flags, and per-user actions with attention to security and user experience.  
+
+In short, this project is as much about **growing as a developer** as it is about providing a functional command-line application.
 
 
 ## VERSION AND FEATURES
@@ -275,10 +433,11 @@ Version **0.5.0** focuses on making the CLI more realistic, user-friendly, and a
 - Only authenticated users appear on the leaderboard
 
 
+
 ## Game Modes
 
 ### Interactive Mode
-- Uses **in-memory state** for active gameplay
+- Newer versions use **local session persistence** for active gameplay
 - Dice rolls and guesses are ephemeral
 - Scores are saved to the database at the end of a game (if logged in)
 
@@ -289,167 +448,6 @@ Version **0.5.0** focuses on making the CLI more realistic, user-friendly, and a
   - `guess`
 - Designed for scripted or one-off CLI usage
 
-
-
-## Installation
-```bash
-
-### Install in editable mode
-pip install -e .
-
-### clone repository
-git clone https://github.com/Major-tech/dicegame-cli.git
-
-### Move into the project directory
-cd dicegame
-
-### Install dependencies
-pip install -r requirements.txt
-
-### Run the project
-python -m dicegame
-
-
-## Development Setup (Recommended)
-
-This project requires **Python 3.10+**
-
-## Optional dependencies
-
-1. Create a virtual environment
-2. Run `pip install .[dev]`
-3. Run tests with `pytest`
-
-If you use `pyenv`, you can install and activate the correct version:
-
-```bash
-pyenv install 3.11.7
-pyenv local 3.11.7
-
-
-## Running Tests
-
-This project includes minimal tests using pytest:
-
-```bash
-pip install pytest
-pytest -v
-
-
-
-## Usage
-- prefix 'dicegame' before each command in non-interactive/cli mode
-- In interactive mode,simply type the commamd name and run it
-
-
-| Command | Description |
-|---------|-------------|
-| log list | Shows all available log files |
-| log clear | Clears all application logs |
-| whoami | Displays the currently logged in user |
-| report-bug | Packages application logs into a ZIP file|
-| reset password  | reset player password
-| login   | user login |
-| signup   | user signup | 
-| roll    | Simple dice roll |
-| play    | Win/Lose dice game |
-| guess <number> | Guess the dice number |
-| player list | List all players |
-| leaderboard | Show leaderboard |
-| reset score  | reset player score |
-| player delete | Delete an account (requires password) |
-
-
-| Flag   | Description |
-|------------------------
-| -i | --interactive | Enter interactive mode |
-| -V | --version | View dicegame-cli version |
-| --debug | Enable debug mode |
-
-
-### Practical Examples
-## Usage
-
-Below are example commands demonstrating how to use each feature of the application.
-
-```bash
-## FLAGS
-
-# Enter interactive mode
-dicegame -i | dicegame --interactive 
-
-# View current dicegame version
-dicegame -V | dicegame --version
-
-## In interactive mode:
-- Type the command 'version'
-
-# Enable debug mode
-dicegame --debug
-
-
-## COMMANDS
-# See a list of all log files
-dicegame log list
-
-# Clear all the application's log files
-dicegame log clear
-
-# Display the currently ligged in user
-dicegame whoami
-
-# Create a bug report and email it to the developer in case an issue arises
-dicegame report-bug
-
-# Create a new user account
-dicegame signup
-- You'll be prompted for a usernmae and password
-
-# Log in to an existing account
-dicegame login
-- You'll be prompted for a usernmae and password
-
-# Roll a dice once and display the result
-dicegame roll
-
-# Play the win/lose dice game
-dicegame play
-
-# Guess the dice number (replace <number> with your guess, e.g. 4)
-dicegame guess 4
-
-## In interactive mode:
-- Type the command 'guess'
-- You'll be prompted for your guess
-
-# Display a list of all registered players
-dicegame player list
-
-# Display the leaderboard sorted by score
-dicegame leaderboard
-
-# Reset the currently logged-in player's score to zero
-dicegame reset score
-
-- You'll gwt a password prompt for verification
-
-# Reset a player's password
-dicegame reset password
-
-- You'll get a password prompt for verification
-
-# Delete the currently logged-in player's account (password required)
-dicegame player delete
-
-- You'll get a password prompt for verification
-
-
-### **Note**
-- If you did not install the app system-wide, replace `dicegame` with:
-- `python -m dicegame`
-- or `python main.py`
-
-- In interactive mode you only type the command without the APP_NAME('dicegame')
 
 
 ## Versioning Policy
@@ -495,9 +493,6 @@ PATCH releases do **not** introduce breaking changes to CLI syntax or behavior.
 
 
 
-## 6️⃣ Configuration 
-
-```md
 ## Configuration
 The app stores session data in:
 ~/.local/share/dice_game/sessions
