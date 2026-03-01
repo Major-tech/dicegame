@@ -16,7 +16,7 @@ def main():
     # -------------------------
     # 1. Build parser & parse args
     # -------------------------
-    parser = build_parser()  # or define parser here
+    parser = build_parser()
     args = parser.parse_args()
 
     # -------------------------

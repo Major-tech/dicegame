@@ -1,4 +1,4 @@
-# Dice Game CLI 🎲
+# dicegame 🎲
 
 - A simple cli dicegame where a player rolls the dice while participating in different game modes and it can be played by anyone
 
@@ -26,6 +26,9 @@ track scores, and compete on a leaderboard.
 
 ## Installation
 ```bash
+
+### Install via pip
+pip install dicegame
 
 ### clone repository
 git clone https://github.com/Major-tech/dicegame-cli.git

@@ -71,7 +71,6 @@ def setup_logger(level: int = logging.INFO) -> None:
     )
 
     # Configure log level and formatter
-#    app_log_handler.setLevel(logging.DEBUG)
     app_log_handler.setFormatter(formatter)
 
     # APP ROTATING LOG FILE HANDLER
@@ -97,9 +96,5 @@ def setup_logger(level: int = logging.INFO) -> None:
     root_logger.handlers.clear()
     root_logger.addHandler(app_log_handler)
     root_logger.addHandler(error_log_handler)
-#    root_logger.addHandler(console_handler)
-
- #   root_logger.propagate = False
-#    return root_logger
 
 

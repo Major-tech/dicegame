@@ -131,7 +131,7 @@ def build_parser() -> argparse.ArgumentParser:
         help="Submit a bug report to the developer.",
         description=(
             "Use this command to report unexpected behavior, crashes,\n"
-            "or gameplay issues directly to the DiceGame developer."
+            "or gameplay issues directly to the dicegame developer."
         ),
         epilog="Example:\n  dicegame report-bug\n",
         formatter_class=argparse.RawTextHelpFormatter,
@@ -163,7 +163,7 @@ def build_parser() -> argparse.ArgumentParser:
     # ============================================================
     signup = subparsers.add_parser(
         "signup",
-        help="Create a new DiceGame account.",
+        help="Create a new dicegame account.",
         description=(
             "Registers a new user account.\n\n"
             "You must provide a username and password."
@@ -176,11 +176,13 @@ def build_parser() -> argparse.ArgumentParser:
     )
     signup.add_argument(
         "--username",
+        type=str,
         required=False,
         help="Desired username for the new account.",
     )
     signup.add_argument(
         "--password",
+        type=str,
         required=False,
         help="Password for the new account.",
     )
@@ -190,7 +192,7 @@ def build_parser() -> argparse.ArgumentParser:
     # ============================================================
     login = subparsers.add_parser(
         "login",
-        help="Log into an existing DiceGame account.",
+        help="Log into an existing dicegame account.",
         description=(
             "Authenticates a user and starts an active session.\n\n"
             "You must be logged in to play scoring game modes."
@@ -206,9 +208,9 @@ def build_parser() -> argparse.ArgumentParser:
     # ============================================================
     subparsers.add_parser(
         "leaderboard",
-        help="View the top players and their scores.",
+        help="View all players and their scores.",
         description=(
-            "Displays the DiceGame leaderboard ranked by score.\n"
+            "Displays the dicegame leaderboard ranked by score.\n"
             "Use this to compare your progress with other players."
         ),
         epilog="Example:\n  dicegame leaderboard\n",
@@ -257,7 +259,7 @@ def build_parser() -> argparse.ArgumentParser:
     player_sub.add_parser(
         "list",
         help="List all registered players.",
-        description="Displays all user accounts currently stored in DiceGame.",
+        description="Displays all user accounts currently stored in dicegame.",
         epilog="Example:\n  dicegame player list\n",
         formatter_class=argparse.RawTextHelpFormatter,
     )
@@ -292,7 +294,7 @@ def build_parser() -> argparse.ArgumentParser:
     # ============================================================
     subparsers.add_parser(
         "play",
-        help="Start a scoring dice game round in 'play' mode.",
+        help="Start a scoring dice game round in 'play' mode.5 points are awarded for each correct guess",
         description=(
             "Begins a dice guessing game in 'play' mode.\n\n"
             "Winning dice roll numbers are between 4, 5 and 6.\n"
@@ -306,7 +308,7 @@ def build_parser() -> argparse.ArgumentParser:
     # ============================================================
     guess = subparsers.add_parser(
         "guess",
-        help="Submit your dice guess (1–6).",
+        help="Submit your dice guess (1–6).10 points are awarded for each correct guess",
         description=(
             "Submit a number between 1 and 6 as your dice guess.\n\n"
             "If the guess matches the winning roll, points are awarded."
@@ -333,8 +335,8 @@ def build_parser() -> argparse.ArgumentParser:
         ),
         epilog=(
             "Examples:\n"
-            "  dicegame reset score --password secret\n"
-            "  dicegame reset password --password secret\n"
+            "  dicegame reset score\n"
+            "  dicegame reset password\n"
         ),
         formatter_class=argparse.RawTextHelpFormatter,
     )
@@ -350,7 +352,7 @@ def build_parser() -> argparse.ArgumentParser:
         "score",
         help="Reset your score back to 0.",
         description="Sets the current player's score to zero.",
-        epilog="Example:\n  dicegame reset score --password secret\n",
+        epilog="Example:\n  dicegame reset score\n",
         formatter_class=argparse.RawTextHelpFormatter,
     )
 
@@ -358,7 +360,7 @@ def build_parser() -> argparse.ArgumentParser:
         "password",
         help="Reset your account password.",
         description="Allows a player to reset their account password securely.",
-        epilog="Example:\n  dicegame reset password --password oldpass\n",
+        epilog="Example:\n  dicegame reset password\n",
         formatter_class=argparse.RawTextHelpFormatter,
     )
 

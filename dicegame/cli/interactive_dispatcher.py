@@ -272,6 +272,7 @@ def interactive_dispatch(session: Session):
         except AppError as e:
             logger.exception("Interactive mode: AppError")
             console.print(f"[error] {e} [/error]")
+
         except Exception as e:
             logger.exception("Interactive mode: Unhandled error")
             console.print("[error] An unexpected error occurred [/error]")
