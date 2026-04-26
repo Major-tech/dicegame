@@ -4,7 +4,7 @@ from dicegame.utils.rich_pkg.console import console
 from dicegame.utils.common_utils import confirm_reset
 
 
-def view_logs_service(session: Session) -> list:
+def view_logs_service(session: Session) -> None:
     """Prints out all the available app logs stored locally"""
 
     console.print("LOGS\n",style='bold magenta')

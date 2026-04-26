@@ -11,19 +11,19 @@ from dicegame.session.session_disk import load_session_token
 from dicegame.session.session_disk import Session
 
 
-def login_cmd(username: str,password: str,session: Session):
+def login_cmd(username: str,password: str,session: Session) -> Session:
     """Collects and routes user login data to the service layer"""
 
     return login_service(username,password)
 
 
-def signup_cmd(username: str,password: str,session: Session):
+def signup_cmd(username: str,password: str,session: Session) -> Session:
     """Routes new user data to service layer for registration"""
 
     return signup_service(username,password,session)
 
 
-def logout_cmd(session: Session):
+def logout_cmd(session: Session) -> Session:
     """End/Destroy current session saved locally on disk"""
     token = load_session_token()
 
@@ -33,7 +33,7 @@ def logout_cmd(session: Session):
     raise NotLoggedInError("Not logged in")
 
 
-def reset_password_cmd(new_password: str,session: Session):
+def reset_password_cmd(new_password: str,session: Session) -> ResetPasswordResult:
     """Route new password to the service layer for a password reset"""
 
     return reset_password_service(new_password,session)

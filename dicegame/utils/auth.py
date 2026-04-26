@@ -35,7 +35,7 @@ def validate_username(username: str) -> bool:
             raise
 
 
-def collect_auth_credentials(args):
+def collect_auth_credentials(args: Namespace) -> tuple(str,str):
     """Collect username and password details"""
 
     attempts = 4
@@ -72,7 +72,7 @@ def collect_auth_credentials(args):
     return username,password
 
 
-def collect_password(args) -> str:
+def collect_password(args: Namespace) -> str:
     """Collect a user's password"""
 
     attempts = 4
@@ -100,7 +100,7 @@ def collect_password(args) -> str:
     return password
 
 
-def collect_new_password(args) -> str:
+def collect_new_password(args: Namespace) -> str:
     """Returns a string which is used to update a user's current password """
 
     # Header

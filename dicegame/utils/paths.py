@@ -1,7 +1,7 @@
 from pathlib import Path
 
 
-def get_app_data_dir():
+def get_app_data_dir() -> Path:
     """Returns the directory where the application's data will be saved in"""
 
     path = Path.home() / '.local/share/dicegame'

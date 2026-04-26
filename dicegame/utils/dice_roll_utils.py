@@ -74,7 +74,7 @@ class RemovePlayerResult:
 #--------------------INTERACTIVE--------------------
 # FUNCTIONS
 
-def get_user_guess(args) -> int:
+def get_user_guess(args: Namespace) -> int:
     """Returns a user's guess, an integer in range(1-6)"""
 
     for i in range(3):

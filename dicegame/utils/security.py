@@ -13,7 +13,7 @@ ph = PasswordHasher(
 )
 
 
-def hash_password(password) -> str:
+def hash_password(password: str) -> str:
     """Hashes a password using argon2 and returns it"""
     return ph.hash(password)
 

@@ -6,7 +6,7 @@ from dicegame.services.log_service import(
 from dicegame.utils.errors import not_logged_in
 
 
-def view_logs_cmd(session: Session) -> list:
+def view_logs_cmd(session: Session) -> None:
     """Display all logs stored on disk"""
 
     # Ensure player is logged in

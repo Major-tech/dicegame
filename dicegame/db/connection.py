@@ -2,7 +2,7 @@ import sqlite3
 from dicegame.utils.paths import DB_PATH
 
 
-def get_connection():
+def get_connection() -> sqlite3.Connection:
     """Connects to the database"""
 
     conn = sqlite3.connect(DB_PATH)

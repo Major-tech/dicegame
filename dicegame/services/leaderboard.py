@@ -5,7 +5,7 @@ from dicegame.utils.rich_pkg.console import console
 from rich.table import Table
 
 
-def player_list_service(session: Session):
+def player_list_service(session: Session) -> Table:
     """Prints out a list of players"""
 
     with get_connection() as conn:
@@ -39,7 +39,7 @@ def player_list_service(session: Session):
     return console.print(table,style='blue')
 
 
-def leaderboard_service(session: Session):
+def leaderboard_service(session: Session) -> Table:
     """Prints out a list of players and their scores"""
 
     with get_connection() as conn:

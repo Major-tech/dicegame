@@ -4,7 +4,7 @@ from dicegame.utils.rich_pkg.console import console
 
 # FUNCTIONS
 
-def inline_space(spaces):
+def inline_space(spaces: int) -> str:
     """Returns the specified number of inline spaces"""
 
     return ' ' * spaces

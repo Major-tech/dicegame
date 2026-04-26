@@ -3,7 +3,7 @@ from rich.progress import Progress
 import time
 
 
-def progress_bar():
+def progress_bar() -> None:
     """Displays a visual progress bar"""
 
     with Progress() as progress:

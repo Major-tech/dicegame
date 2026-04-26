@@ -45,7 +45,7 @@ from dicegame.utils.errors import not_logged_in
 # logger
 logger = get_logger(__name__)
 
-def dispatch(args,session):
+def dispatch(args: Namespace, session: Session) -> None:
     """Route user cli commands to appropriate command functions"""
 
     try:

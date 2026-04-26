@@ -51,7 +51,7 @@ import sys
 logger = get_logger(__name__)
 
 
-def interactive_dispatch(session: Session):
+def interactive_dispatch(session: Session) -> None:
     """Runs the interactive mode"""
     console.print(Panel("DICER (Dice Rolling Game)\nLOG IN TO PLAY",style='bold violet'))
     console.print("[info]Entering interactive mode.Enter 'exit' to quit[/info]")

@@ -1,3 +1,9 @@
+## [v0.7.5] - 2026-04-26
+### Added
+- Added type hints across core functions for improved type safety and readability
+
+
+
 ## [v0.7.0] - 2026-02-17
 ### Added
 - Informative help messages for all commands, improving user guidance.

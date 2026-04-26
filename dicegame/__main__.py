@@ -9,10 +9,10 @@ from dicegame.cli.interactive_dispatcher import interactive_dispatch
 from dicegame.logging.config import redact
 from dicegame.version import get_version
 import logging
-import sys
+import sys 
 
 
-def main():
+def main() -> None:
     # -------------------------
     # 1. Build parser & parse args
     # -------------------------

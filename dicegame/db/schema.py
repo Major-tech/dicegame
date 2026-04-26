@@ -1,7 +1,7 @@
 from dicegame.db.connection import get_connection
 
 
-def init_db():
+def init_db() -> None:
     """Creates database tables"""
 
     table_query = """CREATE TABLE IF NOT EXISTS users(

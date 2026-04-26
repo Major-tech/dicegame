@@ -93,7 +93,7 @@ def login_service(username: str,password: str) -> Session:
     return Session(user_id= user['id'],username= user['username'],logged_in= True)
 
 
-def signup_service(username: str,password: str,session: Session):
+def signup_service(username: str,password: str,session: Session) -> Session:
     """Adds a new user account"""
 
     # hash password
@@ -135,7 +135,7 @@ def logout_service(token: str,session: Session) -> Session:
             raise
 
 
-def reset_password_service(password: str,session: Session):
+def reset_password_service(password: str,session: Session) -> ResetPasswordResult:
     """Resets a registered user's password"""
     with get_connection() as conn:
         try:
