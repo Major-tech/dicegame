@@ -186,9 +186,9 @@ dicegame player delete
 - In interactive mode you only type the command without the APP_NAME('dicegame')
 
 
-## 📦 DiceGame is now on PyPI!
+## 📦 dicegame is now on PyPI!
 
-I’m excited to announce that **DiceGame** is officially published on PyPI.  
+I’m excited to announce that **dicegame** is officially published on PyPI.  
 You can install it using:
 
 ```bash

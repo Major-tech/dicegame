@@ -50,7 +50,6 @@ Homepage = "https://github.com/Major-tech/dicegame"
 Repository = "https://github.com/Major-tech/dicegame"
 Issues = "https://github.com/Major-tech/dicegame/issues"
 
-
 [project.scripts]
 dicegame = "dicegame.__main__:main"
 
