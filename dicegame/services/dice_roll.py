@@ -44,7 +44,7 @@ def play_dice_roll_service(dice_roll_output: int,session: Session) -> PlayModeRe
     player_has_won = dice_roll_output in winning_numbers
 
     # If player is logged out
-    if not session:
+    if not session.logged_in:
         # Win
         if player_has_won:
             return PlayModeResult(success= True,lucky_number= dice_roll_output,logged_in= False)
@@ -81,7 +81,7 @@ def guess_dice_roll_service(computer_guess: int,player_guess: int,session: Sessi
         player_has_won = True
 
     # If player is logged out
-    if not session:
+    if not session.logged_in:
         # Win
         if player_has_won:
             return GuessModeResult(success= True,lucky_number= computer_guess,user_guess= player_guess,logged_in= False)
