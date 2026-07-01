@@ -7,6 +7,7 @@ from dicegame.services.auth import(
 from dicegame.utils.errors import(
     NotLoggedInError
 )
+from dicegame.utils.auth import ResetPasswordResult
 from dicegame.session.session_disk import load_session_token
 from dicegame.session.session_disk import Session
 

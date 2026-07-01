@@ -43,33 +43,32 @@ def play_dice_roll_service(dice_roll_output: int,session: Session) -> PlayModeRe
     # variables
     player_has_won = dice_roll_output in winning_numbers
 
-    # If player is logged out
-    if not session.logged_in:
-        # Win
-        if player_has_won:
-            return PlayModeResult(success= True,lucky_number= dice_roll_output,logged_in= False)
-        # Lose
-        else:
-            return PlayModeResult(success= False,lucky_number= dice_roll_output,logged_in= False)
-
     # If player is logged in
     if session and session.logged_in:
         # Win
         if player_has_won:
             # (ADDING POINTS IF USER WINS)
             with get_connection() as conn:
-                try:
+                try: 
                     add_score_play(conn,session.username)
                     logger.info("score added successfully")
 
                     return PlayModeResult(success= True,lucky_number= dice_roll_output,logged_in= True)
                 except Exception as e:
-                    raise
+                    raise e
 
         # Lose
         else:
             return PlayModeResult(success= False,lucky_number= dice_roll_output,logged_in= True)
 
+    # If player is logged out
+    else:
+        # Win
+        if player_has_won:
+            return PlayModeResult(success= True,lucky_number= dice_roll_output,logged_in= False)
+        # Lose
+        else:
+            return PlayModeResult(success= False,lucky_number= dice_roll_output, logged_in= False)
 
 def guess_dice_roll_service(computer_guess: int,player_guess: int,session: Session) -> GuessModeResult:
     """Returns the guess mode dice roll output"""
@@ -79,15 +78,6 @@ def guess_dice_roll_service(computer_guess: int,player_guess: int,session: Sessi
 
     if computer_guess == player_guess: # player wins
         player_has_won = True
-
-    # If player is logged out
-    if not session.logged_in:
-        # Win
-        if player_has_won:
-            return GuessModeResult(success= True,lucky_number= computer_guess,user_guess= player_guess,logged_in= False)
-        # Lose
-        else:
-            return GuessModeResult(success= False,lucky_number= computer_guess,user_guess= player_guess,logged_in= False)
 
     # If player is logged in
     if session and session.logged_in:
@@ -101,11 +91,20 @@ def guess_dice_roll_service(computer_guess: int,player_guess: int,session: Sessi
                     return GuessModeResult(success= True,lucky_number= computer_guess,user_guess= player_guess,logged_in= True)
 
                 except Exception as e:
-                    raise
+                    raise e
 
         # Lose
         else:
             return GuessModeResult(success= False,lucky_number= computer_guess,user_guess= player_guess,logged_in= True)
+
+    # If player is logged out
+    else:
+        # Win
+        if player_has_won:
+            return GuessModeResult(success=True, lucky_number=computer_guess, user_guess=player_guess, logged_in=False)
+        # Lose 
+        else:
+            return GuessModeResult(success=False, lucky_number=computer_guess, user_guess=player_guess, logged_in=False)
 
 
 def reset_score_service(password: str,session: Session) -> ResetScoreResult:
@@ -141,7 +140,7 @@ def reset_score_service(password: str,session: Session) -> ResetScoreResult:
                 raise UserNotFoundError()
 
         except Exception as e:
-            raise
+            raise e
 
     return ResetScoreResult(success= False,previous_score= 0)
 

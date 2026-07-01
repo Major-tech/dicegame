@@ -1,4 +1,4 @@
-[build-system]
+a. [build-system]
 requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
@@ -7,7 +7,7 @@ include-package-data = true
 
 [project]
 name = "dicegame"
-version = "0.7.5"
+version = "0.7.6"
 description = "A simple CLI dice game"
 readme = "README.md"
 requires-python = ">=3.10"

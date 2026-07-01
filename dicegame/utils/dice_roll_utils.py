@@ -3,6 +3,7 @@ from dicegame.utils.rich_pkg.console import console
 from dataclasses import dataclass
 from dicegame.utils.errors import TooManyInvalidAttemptsError
 from dicegame.session.session_disk import Session
+from argparse import Namespace
 
 
 #----------------INTERACTIVE & NON-INTERACTIVE----------------
@@ -14,7 +15,7 @@ def get_random_number() -> int:
     return randint(1,6)
 
 
-def guest_mode() -> str:
+def guest_mode() -> None:
     """Inform users that they're logged out"""
 
     console.print("[warning]GUEST MODE\nYou're logged out.Any points earned will not be saved[/warning]")

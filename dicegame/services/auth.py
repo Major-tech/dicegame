@@ -37,7 +37,7 @@ logger = get_logger(__name__)
 
 
 # Check for any running session
-def load_session() -> Session:
+def load_session() -> Session | None:
     """Returns a running session object"""
     token = load_session_token() # get token(str)
     if token is None:
@@ -48,7 +48,7 @@ def load_session() -> Session:
         try:
             session_details = get_session_details(conn,token)
         except Exception as e:
-            raise
+            raise e
 
     # Session object
     if session_details:

@@ -9,6 +9,7 @@ from dicegame.session.session_disk import Session
 from dicegame.db.connection import get_connection
 from dicegame.db.queries import fetch_user
 import getpass
+from argparse import Namespace
 
 
 # CLASSES
@@ -34,8 +35,8 @@ def validate_username(username: str) -> bool:
         except Exception as e:
             raise
 
-
-def collect_auth_credentials(args: Namespace) -> tuple(str,str):
+    
+def collect_auth_credentials(args: Namespace) -> tuple[str,str]:
     """Collect username and password details"""
 
     attempts = 4

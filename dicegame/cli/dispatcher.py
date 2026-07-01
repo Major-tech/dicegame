@@ -9,6 +9,7 @@ from dicegame.commands.leaderboard import(
     player_list_cmd,
     leaderboard_cmd
 )
+from argparse import Namespace
 from dicegame.session.session_disk import Session
 from dicegame.utils.common_utils import inline_space
 from dicegame.commands.dice_roll import(

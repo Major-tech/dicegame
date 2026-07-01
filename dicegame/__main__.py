@@ -12,7 +12,7 @@ import logging
 import sys 
 
 
-def main() -> None:
+def main() -> int | None:
     # -------------------------
     # 1. Build parser & parse args
     # -------------------------

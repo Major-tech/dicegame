@@ -1,5 +1,6 @@
 from typing import Any
-import logging
+
+import logging 
 import logging.handlers
 from dicegame.utils.paths import get_app_data_dir
 
@@ -43,8 +44,10 @@ def redact(data: dict | None) -> dict | None:
     return {k: _redact_value(k, v) for k, v in data.items()}
 
 
-def setup_logger(level: int = logging.INFO) -> None:
-    """Central logging configuration"""
+def setup_logger(level: int = logging.INFO) -> logging.Logger:
+    """
+    Central logging configuratio
+    """
 
     # ROOT LOGGER
     root_logger = logging.getLogger()
@@ -62,10 +65,10 @@ def setup_logger(level: int = logging.INFO) -> None:
         datefmt = "%Y-%m-%d %H:%M:%S"
     )
 
-    # APP ROTATING LOG FILE HANDLER
+    # APP LOG ROTATING FILE HANDLER
     app_log_handler = logging.handlers.RotatingFileHandler(
         APP_LOG_FILE,
-        maxBytes=1+3_000_000,
+        maxBytes=3_000_000,
         backupCount=3,
         encoding = 'utf-8'
     )
@@ -73,7 +76,7 @@ def setup_logger(level: int = logging.INFO) -> None:
     # Configure log level and formatter
     app_log_handler.setFormatter(formatter)
 
-    # APP ROTATING LOG FILE HANDLER
+    # ERROR LOG ROTATING FILE HANDLER
     error_log_handler = logging.handlers.RotatingFileHandler(
         ERROR_LOG_FILE,
         maxBytes=3_000_000,
@@ -97,4 +100,4 @@ def setup_logger(level: int = logging.INFO) -> None:
     root_logger.addHandler(app_log_handler)
     root_logger.addHandler(error_log_handler)
 
-
+    return root_logger

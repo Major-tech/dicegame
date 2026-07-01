@@ -1,4 +1,5 @@
-# TABLE: USERS ------------------
+import sqlite3
+
 
 def fetch_user(conn: sqlite3.Connection, username: str) -> sqlite3.Row | None:
     """Returns a single user's details,fetches by the username"""
